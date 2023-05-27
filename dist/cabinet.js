@@ -18,6 +18,7 @@ const logOut = document.querySelector(".log-out");
 const addProduct = document.querySelector(".add-product");
 const addProductOverlay = document.querySelector(".add-product-overlay");
 const productsBox = document.querySelector(".products-box");
+const productDiv = document.querySelector(".product");
 const addProductForm = document.querySelector(".add-product-form");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
@@ -28,10 +29,15 @@ const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     if (href !== "") {
         const params = new URLSearchParams(href);
         const id = params.get("id");
-        const reponse = yield fetch(`http://10.10.2.116:1010/api/users/${id}`);
+        const reponse = yield fetch(`http://localhost:1010/api/users/${id}`);
         const data = yield reponse.json();
         return data.data;
     }
+});
+const getProduct = () => __awaiter(void 0, void 0, void 0, function* () {
+    const reponse = yield fetch(`http://localhost:2020/api/products/`);
+    const data = yield reponse.json();
+    return data.data;
 });
 getUser().then((user) => {
     profileName.textContent = user.lastname + " " + user.firstname;
@@ -42,6 +48,8 @@ getUser().then((user) => {
     avatar2.src = user.avatar;
     profile.appendChild(avatar1);
     imgBox.appendChild(avatar2);
+}).catch((error) => {
+    console.error(error.message);
 });
 profile.addEventListener("click", () => {
     profileMenu.classList.toggle("show");
@@ -93,7 +101,7 @@ editForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0,
     };
     try {
         getUser().then((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const res = yield fetch(`http://10.10.2.116:1010/api/users/${user.id}`, {
+            const res = yield fetch(`http://localhost:1010/api/users/${user.id}`, {
                 method: "PUT",
                 body: JSON.stringify(updatedUser),
                 headers: {
@@ -141,29 +149,58 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
                 "content-type": "application/json",
             },
         });
+        addProductOverlay.classList.remove("show");
         const { data } = yield res.json();
-        for (const product of data) {
-            let productDiv = document.createElement("div");
-            productDiv.className = "product";
-            let productContent = document.createElement("div");
-            productContent.className = "product-content";
-            let productImage = document.createElement("img");
-            productImage.src = product.img;
-            let productH2 = document.createElement("h2");
-            productH2.textContent = product.name;
-            let productP = document.createElement("p");
-            productP.textContent = product.description;
-            let productSpan = document.createElement("span");
-            productSpan.textContent = product.price;
-            productContent.append(productH2, productP, productSpan);
-            productDiv.append(productImage, productContent);
-            productsBox.appendChild(productDiv);
-        }
+        let productDiv = document.createElement("div");
+        productDiv.className = "product";
+        let productContent = document.createElement("div");
+        productContent.className = "product-content";
+        let productImage = document.createElement("img");
+        productImage.src = data.img;
+        let productH2 = document.createElement("h2");
+        productH2.textContent = data.name;
+        let productP = document.createElement("p");
+        productP.textContent = data.description;
+        let productSpan = document.createElement("span");
+        productSpan.textContent = data.price;
+        productContent.append(productH2, productP, productSpan);
+        productDiv.append(productImage, productContent);
+        productsBox.appendChild(productDiv);
     }
     catch (error) {
         console.error(error.message);
     }
 }));
+getProduct().then((products) => {
+    for (const product of products) {
+        let productDiv = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.setAttribute('data-id', `${product.id}`);
+        let productContent = document.createElement("div");
+        productContent.className = "product-content";
+        let productImage = document.createElement("img");
+        productImage.src = product.img;
+        let productH2 = document.createElement("h2");
+        productH2.textContent = product.name;
+        let productP = document.createElement("p");
+        productP.textContent = product.description;
+        let productSpan = document.createElement("span");
+        productSpan.textContent = product.price;
+        productContent.append(productH2, productP, productSpan);
+        productDiv.append(productImage, productContent);
+        productsBox.appendChild(productDiv);
+        productDiv.addEventListener('click', () => {
+            let id = productDiv.getAttribute("data-id");
+            if (id !== null) {
+                console.log("ID", id);
+                console.log("Name", product.name);
+                console.log("Name", product.price);
+            }
+        });
+    }
+}).catch((error) => {
+    console.error(error.message);
+});
 // const getUser = async () => {
 //    let href = location.search;
 //    if (href !== "") {

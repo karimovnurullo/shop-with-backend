@@ -6,18 +6,13 @@ const profileMenu = document.querySelector<HTMLDivElement>(".profile-menu")!;
 const editProfile = document.querySelector<HTMLDivElement>(".edit-profile")!;
 const logOut = document.querySelector<HTMLDivElement>(".log-out")!;
 const addProduct = document.querySelector<HTMLDivElement>(".add-product")!;
-const addProductOverlay = document.querySelector<HTMLDivElement>(
-   ".add-product-overlay"
-)!;
-const productsBox = document.querySelector<HTMLDivElement>(
-   ".products-box"
-)!;
+const addProductOverlay = document.querySelector<HTMLDivElement>(".add-product-overlay")!;
+const productsBox = document.querySelector<HTMLDivElement>(".products-box")!;
+const productDiv = document.querySelector<HTMLDivElement>(".product")!;
 
 const addProductForm = document.querySelector<HTMLFormElement>(".add-product-form")!;
 
-const editProfileOverlay = document.querySelector<HTMLDivElement>(
-   ".edit-profile-overlay"
-)!;
+const editProfileOverlay = document.querySelector<HTMLDivElement>(".edit-profile-overlay")!;
 const editForm = document.querySelector<HTMLFormElement>(".edit-form")!;
 const closeEditForm =
    document.querySelector<HTMLDivElement>(".close-edit-form")!;
@@ -29,11 +24,17 @@ const getUser = async () => {
    if (href !== "") {
       const params = new URLSearchParams(href);
       const id = params.get("id");
-      const reponse = await fetch(`http://10.10.2.116:1010/api/users/${id}`);
+      const reponse = await fetch(`http://localhost:1010/api/users/${id}`);
       const data = await reponse.json();
       return data.data;
    }
 };
+const getProduct = async () => {
+   const reponse = await fetch(`http://localhost:2020/api/products/`);
+   const data = await reponse.json();
+   return data.data;
+};
+
 getUser().then((user) => {
    profileName.textContent = user.lastname + " " + user.firstname;
    shopname.textContent = user.shopname;
@@ -43,7 +44,9 @@ getUser().then((user) => {
    avatar2.src = user.avatar;
    profile.appendChild(avatar1);
    imgBox.appendChild(avatar2);
-});
+}).catch((error) => {
+   console.error(error.message);
+})
 
 profile.addEventListener("click", () => {
    profileMenu.classList.toggle("show");
@@ -103,7 +106,7 @@ editForm.addEventListener("submit", async (event) => {
 
    try {
       getUser().then(async (user) => {
-         const res = await fetch(`http://10.10.2.116:1010/api/users/${user.id}`, {
+         const res = await fetch(`http://localhost:1010/api/users/${user.id}`, {
             method: "PUT",
             body: JSON.stringify(updatedUser),
             headers: {
@@ -157,39 +160,79 @@ addProductForm.addEventListener("submit", async (e) => {
             "content-type": "application/json",
          },
       });
+      addProductOverlay.classList.remove("show");
+
       const { data } = await res.json();
-      for (const product of data) {
 
-         let productDiv = document.createElement("div");
-         productDiv.className = "product";
+      let productDiv = document.createElement("div");
+      productDiv.className = "product";
 
-         let productContent = document.createElement("div");
-         productContent.className = "product-content";
+      let productContent = document.createElement("div");
+      productContent.className = "product-content";
 
-         let productImage = document.createElement("img");
-         productImage.src = product.img;
+      let productImage = document.createElement("img");
+      productImage.src = data.img;
 
-         let productH2 = document.createElement("h2");
-         productH2.textContent = product.name;
+      let productH2 = document.createElement("h2");
+      productH2.textContent = data.name;
 
-         let productP = document.createElement("p");
-         productP.textContent = product.description;
+      let productP = document.createElement("p");
+      productP.textContent = data.description;
 
-         let productSpan = document.createElement("span");
-         productSpan.textContent = product.price;
+      let productSpan = document.createElement("span");
+      productSpan.textContent = data.price;
 
-         productContent.append(productH2, productP, productSpan);
-         productDiv.append(productImage, productContent);
+      productContent.append(productH2, productP, productSpan);
+      productDiv.append(productImage, productContent);
 
-         productsBox.appendChild(productDiv);
-      }
+      productsBox.appendChild(productDiv);
 
    }
    catch (error: any) {
       console.error(error.message);
 
    }
+});
+
+
+getProduct().then((products) => {
+   for (const product of products) {
+      let productDiv = document.createElement("div");
+      productDiv.className = "product";
+      productDiv.setAttribute('data-id', `${product.id}`);
+
+      let productContent = document.createElement("div");
+      productContent.className = "product-content";
+
+      let productImage = document.createElement("img");
+      productImage.src = product.img;
+
+      let productH2 = document.createElement("h2");
+      productH2.textContent = product.name;
+
+      let productP = document.createElement("p");
+      productP.textContent = product.description;
+
+      let productSpan = document.createElement("span");
+      productSpan.textContent = product.price;
+
+      productContent.append(productH2, productP, productSpan);
+      productDiv.append(productImage, productContent);
+
+      productsBox.appendChild(productDiv);
+      productDiv.addEventListener('click', () => {
+         let id = productDiv.getAttribute("data-id");
+         if (id !== null) {
+            console.log("ID", id);
+            console.log("Name", product.name);
+            console.log("Name", product.price);
+         }
+      })
+   }
+}).catch((error: any) => {
+   console.error(error.message);
 })
+
 
 // const getUser = async () => {
 //    let href = location.search;
