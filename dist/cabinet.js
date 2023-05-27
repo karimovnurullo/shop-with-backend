@@ -15,9 +15,12 @@ const imgBox = document.querySelector(".imgbox");
 const profileMenu = document.querySelector(".profile-menu");
 const editProfile = document.querySelector(".edit-profile");
 const logOut = document.querySelector(".log-out");
+const addProduct = document.querySelector(".add-product");
+const addProductOverlay = document.querySelector(".add-product-overlay");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
 const closeEditForm = document.querySelector(".close-edit-form");
+const closeAddForm = document.querySelector(".close-add-form");
 const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     let href = location.search;
     if (href !== "") {
@@ -45,6 +48,9 @@ window.addEventListener("click", (event) => {
     if (!event.target.closest(".profile")) {
         profileMenu.classList.remove("show");
     }
+});
+addProduct.addEventListener("click", () => {
+    addProductOverlay.classList.add("show");
 });
 editProfile.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     editProfileOverlay.classList.add("show");
@@ -109,6 +115,9 @@ editForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0,
 closeEditForm.addEventListener("click", () => {
     editProfileOverlay.classList.remove("show");
 });
+closeAddForm.addEventListener("click", () => {
+    addProductOverlay.classList.remove("show");
+});
 logOut.addEventListener("click", () => {
-    window.location.href = '/';
+    window.location.href = "/";
 });

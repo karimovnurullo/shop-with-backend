@@ -5,12 +5,18 @@ const imgBox = document.querySelector<HTMLDivElement>(".imgbox")!;
 const profileMenu = document.querySelector<HTMLDivElement>(".profile-menu")!;
 const editProfile = document.querySelector<HTMLDivElement>(".edit-profile")!;
 const logOut = document.querySelector<HTMLDivElement>(".log-out")!;
+const addProduct = document.querySelector<HTMLDivElement>(".add-product")!;
+const addProductOverlay = document.querySelector<HTMLDivElement>(
+  ".add-product-overlay"
+)!;
 const editProfileOverlay = document.querySelector<HTMLDivElement>(
   ".edit-profile-overlay"
 )!;
 const editForm = document.querySelector<HTMLFormElement>(".edit-form")!;
 const closeEditForm =
   document.querySelector<HTMLDivElement>(".close-edit-form")!;
+const closeAddForm =
+  document.querySelector<HTMLDivElement>(".close-add-form")!;
 
 const getUser = async () => {
   let href = location.search;
@@ -41,6 +47,10 @@ window.addEventListener("click", (event) => {
   if (!(event.target as HTMLElement).closest(".profile")) {
     profileMenu.classList.remove("show");
   }
+});
+
+addProduct.addEventListener("click", () => {
+  addProductOverlay.classList.add("show");
 });
 
 editProfile.addEventListener("click", async () => {
@@ -114,6 +124,10 @@ closeEditForm.addEventListener("click", () => {
   editProfileOverlay.classList.remove("show");
 });
 
+closeAddForm.addEventListener("click", () => {
+  addProductOverlay.classList.remove("show");
+});
+
 logOut.addEventListener("click", () => {
-  window.location.href = '/';
+  window.location.href = "/";
 });
