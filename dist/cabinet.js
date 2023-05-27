@@ -19,6 +19,8 @@ const addProduct = document.querySelector(".add-product");
 const addProductOverlay = document.querySelector(".add-product-overlay");
 const productsBox = document.querySelector(".products-box");
 const productDiv = document.querySelector(".product");
+const aboutProductOverlay = document.querySelector(".about-product-overlay");
+const closeAboutProduct = document.querySelector(".close-about-product");
 const addProductForm = document.querySelector(".add-product-form");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
@@ -195,19 +197,13 @@ getProduct().then((products) => {
                 console.log("ID", id);
                 console.log("Name", product.name);
                 console.log("Name", product.price);
+                aboutProductOverlay.classList.add("show");
             }
         });
     }
 }).catch((error) => {
     console.error(error.message);
 });
-// const getUser = async () => {
-//    let href = location.search;
-//    if (href !== "") {
-//       const params = new URLSearchParams(href);
-//       const id = params.get("id");
-//       const reponse = await fetch(`http://10.10.2.116:1010/api/users/${id}`);
-//       const data = await reponse.json();
-//       return data.data;
-//    }
-// };
+closeAboutProduct.addEventListener("click", () => {
+    aboutProductOverlay.classList.remove("show");
+});

@@ -9,6 +9,8 @@ const addProduct = document.querySelector<HTMLDivElement>(".add-product")!;
 const addProductOverlay = document.querySelector<HTMLDivElement>(".add-product-overlay")!;
 const productsBox = document.querySelector<HTMLDivElement>(".products-box")!;
 const productDiv = document.querySelector<HTMLDivElement>(".product")!;
+const aboutProductOverlay = document.querySelector<HTMLDivElement>(".about-product-overlay")!;
+const closeAboutProduct = document.querySelector<HTMLDivElement>(".close-about-product")!;
 
 const addProductForm = document.querySelector<HTMLFormElement>(".add-product-form")!;
 
@@ -190,7 +192,6 @@ addProductForm.addEventListener("submit", async (e) => {
    }
    catch (error: any) {
       console.error(error.message);
-
    }
 });
 
@@ -226,6 +227,7 @@ getProduct().then((products) => {
             console.log("ID", id);
             console.log("Name", product.name);
             console.log("Name", product.price);
+            aboutProductOverlay.classList.add("show");
          }
       })
    }
@@ -234,13 +236,7 @@ getProduct().then((products) => {
 })
 
 
-// const getUser = async () => {
-//    let href = location.search;
-//    if (href !== "") {
-//       const params = new URLSearchParams(href);
-//       const id = params.get("id");
-//       const reponse = await fetch(`http://10.10.2.116:1010/api/users/${id}`);
-//       const data = await reponse.json();
-//       return data.data;
-//    }
-// };
+
+closeAboutProduct.addEventListener("click", () => {
+   aboutProductOverlay.classList.remove("show");
+});

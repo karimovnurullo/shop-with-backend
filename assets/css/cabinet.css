@@ -250,7 +250,8 @@ header {
    background-color: rgb(1, 55, 1);
 }
 
-.add-product-overlay {
+.add-product-overlay,
+.about-product-overlay {
    width: 100%;
    height: 100vh;
    position: absolute;
@@ -269,7 +270,8 @@ header {
    display: none;
 }
 
-.add-product-overlay.show {
+.add-product-overlay.show,
+.about-product-overlay.show {
    display: flex;
 }
 
@@ -332,4 +334,16 @@ header {
 .show-products {
    width: 120px;
    height: 30px;
+}
+
+.about-product {
+   width: 100%;
+}
+
+.close-about-product {
+   font-size: 40px;
+   position: absolute;
+   top: 20px;
+   right: 40px;
+   cursor: pointer;
 }
