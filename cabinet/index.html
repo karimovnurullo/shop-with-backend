@@ -8,6 +8,7 @@
    <title>Cabinet</title>
    <link rel="stylesheet" href="../assets/css/cabinet.css">
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
             <input type="search" class="search" placeholder="Search">
          </div>
          <nav class="nav">
-            <div class="basket"><i class="uil uil-shopping-basket"></i></div>
+            <div class="basket"><i class="fa-solid fa-cart-shopping"></i></div>
             <div class="profile">
 
             </div>
@@ -27,7 +28,7 @@
                   <div class="imgbox"></div>
                   <div class="flex">
                      <div class="profile-name"></div>
-                     <div class="profile-username">telesale</div>
+                     <div class="shopname"></div>
                   </div>
                </div>
                <div class="edit-profile item">
@@ -43,9 +44,24 @@
                   </div>
                </div>
             </div>
+
          </nav>
       </header>
-      <h1>Cabinet</h1>
+      <div class="edit-profile-overlay">
+         <form class="edit-form form hide">
+            <input type="text" name="shopname" placeholder="Shop name">
+            <input type="text" name="firstname" placeholder="Name">
+            <input type="text" name="lastname" placeholder="Lastname">
+            <input type="number" name="phone" placeholder="Phone">
+            <input type="text" name="date" placeholder="day/month/year">
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="password" placeholder="New password">
+            <input type="text" name="avatar" placeholder="Avatar">
+            <button class="edit-btn btn">Edit profile</button>
+         </form>
+         <i class="uil uil-times close-edit-form"></i>
+      </div>
+      <!-- <h1>Cabinet</h1> -->
       <h1 class="user-name"></h1>
 
    </div>

@@ -13,22 +13,22 @@ const getUsersBtn = document.querySelector("#get_users_btn");
 const addUserBtn = document.querySelector("#add_user");
 const registerForm = document.querySelector(".sign-form");
 const loginForm = document.querySelector(".login-form");
-const switchLoginFormBtn = document.querySelector('.login-btn');
-const switchRegisterFormBtn = document.querySelector('.create-btn');
-const baseURL = "http://localhost:1010/api/users";
+const switchLoginFormBtn = document.querySelector(".login-btn");
+const switchRegisterFormBtn = document.querySelector(".create-btn");
+const baseURL = "http://10.10.2.116:1010/api/users";
 function switchForm(hide, show) {
-    hide.classList.add('hide');
-    show.classList.remove('hide');
+    hide.classList.add("hide");
+    show.classList.remove("hide");
 }
-switchRegisterFormBtn.addEventListener('click', () => switchForm(loginForm, registerForm));
-switchLoginFormBtn.addEventListener('click', () => switchForm(registerForm, loginForm));
+switchRegisterFormBtn.addEventListener("click", () => switchForm(loginForm, registerForm));
+switchLoginFormBtn.addEventListener("click", () => switchForm(registerForm, loginForm));
 function delay(time = 1000) {
     return new Promise((res) => {
         setTimeout(() => res(20), time);
     });
 }
 function alertFunction(text, color) {
-    const alertElement = document.querySelector('.alert-element');
+    const alertElement = document.querySelector(".alert-element");
     alertElement.style.display = "flex";
     alertElement.textContent = text;
     alertElement.style.background = color ? "green" : "red";
@@ -88,6 +88,7 @@ function universal(btn, loadingMsg, fetchFn) {
 }
 registerForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
     e.preventDefault();
+    const shopname = registerForm.shopname.value.trim();
     const firstname = registerForm.firstname.value.trim();
     const lastname = registerForm.lastname.value.trim();
     const phone = registerForm.phone.value;
@@ -96,7 +97,16 @@ registerForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0,
     const password = registerForm.password.value.trim();
     const confirmPassword = registerForm.passwordConfirm.value.trim();
     const avatar = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png";
-    const mockUser = { firstname, lastname, phone, date, email, password, avatar };
+    const mockUser = {
+        shopname,
+        firstname,
+        lastname,
+        phone,
+        date,
+        email,
+        password,
+        avatar,
+    };
     try {
         if (password === confirmPassword) {
             const res = yield fetch(`${baseURL}`, {
@@ -129,7 +139,7 @@ loginForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, fu
                 window.location.href = `../cabinet/?id=${user.id}`;
             }
             else {
-                return alertFunction("Login failed", false);
+                alertFunction("Login failed", false);
             }
         }
     }
