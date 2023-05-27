@@ -17,6 +17,8 @@ const editProfile = document.querySelector(".edit-profile");
 const logOut = document.querySelector(".log-out");
 const addProduct = document.querySelector(".add-product");
 const addProductOverlay = document.querySelector(".add-product-overlay");
+const productsBox = document.querySelector(".products-box");
+const addProductForm = document.querySelector(".add-product-form");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
 const closeEditForm = document.querySelector(".close-edit-form");
@@ -89,10 +91,6 @@ editForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0,
         password,
         avatar,
     };
-    // let href = location.search;
-    // if (href !== "") {
-    //   const params = new URLSearchParams(href);
-    //   const id = params.get("id");
     try {
         getUser().then((user) => __awaiter(void 0, void 0, void 0, function* () {
             const res = yield fetch(`http://10.10.2.116:1010/api/users/${user.id}`, {
@@ -121,3 +119,58 @@ closeAddForm.addEventListener("click", () => {
 logOut.addEventListener("click", () => {
     window.location.href = "/";
 });
+addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
+    e.preventDefault();
+    const shopname = addProductForm.shopname.value.trim();
+    const name = addProductForm.productname.value.trim();
+    const price = addProductForm.price.value.trim();
+    const img = addProductForm.img.value.trim();
+    const description = addProductForm.description.value.trim();
+    const mockProduct = {
+        img,
+        shopname,
+        name,
+        price,
+        description,
+    };
+    try {
+        const res = yield fetch(`http://localhost:2020/api/products`, {
+            method: "POST",
+            body: JSON.stringify(mockProduct),
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+        const { data } = yield res.json();
+        for (const product of data) {
+            let productDiv = document.createElement("div");
+            productDiv.className = "product";
+            let productContent = document.createElement("div");
+            productContent.className = "product-content";
+            let productImage = document.createElement("img");
+            productImage.src = product.img;
+            let productH2 = document.createElement("h2");
+            productH2.textContent = product.name;
+            let productP = document.createElement("p");
+            productP.textContent = product.description;
+            let productSpan = document.createElement("span");
+            productSpan.textContent = product.price;
+            productContent.append(productH2, productP, productSpan);
+            productDiv.append(productImage, productContent);
+            productsBox.appendChild(productDiv);
+        }
+    }
+    catch (error) {
+        console.error(error.message);
+    }
+}));
+// const getUser = async () => {
+//    let href = location.search;
+//    if (href !== "") {
+//       const params = new URLSearchParams(href);
+//       const id = params.get("id");
+//       const reponse = await fetch(`http://10.10.2.116:1010/api/users/${id}`);
+//       const data = await reponse.json();
+//       return data.data;
+//    }
+// };
