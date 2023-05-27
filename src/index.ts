@@ -9,7 +9,7 @@ const switchLoginFormBtn =
   document.querySelector<HTMLDivElement>(".login-btn")!;
 const switchRegisterFormBtn =
   document.querySelector<HTMLDivElement>(".create-btn")!;
-const baseURL = "http://10.10.2.116:1010/api/users";
+const baseURL = "http://localhost:1010/api/users";
 
 function switchForm(hide: any, show: any) {
   hide.classList.add("hide");
