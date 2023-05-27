@@ -14,6 +14,7 @@ const shopname = document.querySelector(".shopname");
 const imgBox = document.querySelector(".imgbox");
 const profileMenu = document.querySelector(".profile-menu");
 const editProfile = document.querySelector(".edit-profile");
+const logOut = document.querySelector(".log-out");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
 const closeEditForm = document.querySelector(".close-edit-form");
@@ -107,4 +108,7 @@ editForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0,
 }));
 closeEditForm.addEventListener("click", () => {
     editProfileOverlay.classList.remove("show");
+});
+logOut.addEventListener("click", () => {
+    window.location.href = '/';
 });

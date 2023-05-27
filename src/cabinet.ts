@@ -4,6 +4,7 @@ const shopname = document.querySelector<HTMLDivElement>(".shopname")!;
 const imgBox = document.querySelector<HTMLDivElement>(".imgbox")!;
 const profileMenu = document.querySelector<HTMLDivElement>(".profile-menu")!;
 const editProfile = document.querySelector<HTMLDivElement>(".edit-profile")!;
+const logOut = document.querySelector<HTMLDivElement>(".log-out")!;
 const editProfileOverlay = document.querySelector<HTMLDivElement>(
   ".edit-profile-overlay"
 )!;
@@ -111,4 +112,8 @@ editForm.addEventListener("submit", async (event) => {
 
 closeEditForm.addEventListener("click", () => {
   editProfileOverlay.classList.remove("show");
+});
+
+logOut.addEventListener("click", () => {
+  window.location.href = '/';
 });
