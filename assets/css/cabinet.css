@@ -275,14 +275,13 @@ header {
 
 .products-box{
   width: 100%;
-  max-height: 530px;
+  max-height: calc(100% - 80px);
   height: fit-content;
-  border-radius: 10px;
-  padding: 20px;
+  padding: 25px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   overflow: auto;
-  gap: 15px;
+  gap: 25px;
   margin-right: 30px;
 }
 .products-box.hide{
