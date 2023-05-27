@@ -21,6 +21,7 @@ const productsBox = document.querySelector(".products-box");
 const productDiv = document.querySelector(".product");
 const aboutProductOverlay = document.querySelector(".about-product-overlay");
 const closeAboutProduct = document.querySelector(".close-about-product");
+const aboutProduct = document.querySelector(".about-product");
 const addProductForm = document.querySelector(".add-product-form");
 const editProfileOverlay = document.querySelector(".edit-profile-overlay");
 const editForm = document.querySelector(".edit-form");
@@ -41,7 +42,8 @@ const getProduct = () => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield reponse.json();
     return data.data;
 });
-getUser().then((user) => {
+getUser()
+    .then((user) => {
     profileName.textContent = user.lastname + " " + user.firstname;
     shopname.textContent = user.shopname;
     const avatar1 = document.createElement("img");
@@ -50,7 +52,8 @@ getUser().then((user) => {
     avatar2.src = user.avatar;
     profile.appendChild(avatar1);
     imgBox.appendChild(avatar2);
-}).catch((error) => {
+})
+    .catch((error) => {
     console.error(error.message);
 });
 profile.addEventListener("click", () => {
@@ -131,19 +134,19 @@ logOut.addEventListener("click", () => {
 });
 addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
     e.preventDefault();
-    const shopname = addProductForm.shopname.value.trim();
     const name = addProductForm.productname.value.trim();
     const price = addProductForm.price.value.trim();
     const img = addProductForm.img.value.trim();
     const description = addProductForm.description.value.trim();
-    const mockProduct = {
-        img,
-        shopname,
-        name,
-        price,
-        description,
-    };
     try {
+        const user = yield getUser();
+        const mockProduct = {
+            img,
+            shopname: user.shopname,
+            name,
+            price,
+            description,
+        };
         const res = yield fetch(`http://localhost:2020/api/products`, {
             method: "POST",
             body: JSON.stringify(mockProduct),
@@ -168,16 +171,34 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
         productContent.append(productH2, productP, productSpan);
         productDiv.append(productImage, productContent);
         productsBox.appendChild(productDiv);
+        productDiv.addEventListener("click", () => {
+            aboutProductOverlay.classList.add("show");
+            aboutProduct.innerHTML = `<div class="about-product-img">
+           <img src="${data.img}" alt="">
+        </div>
+        <div class="about-product-text">
+           <p class="productname">${data.name}</p>
+           <p class="shopname">brend: <span> ${data.shopname}</span></p>
+           <p class="productprice">price: <span> ${data.price}</span></p>
+           <p class="description">${data.description}</p>
+           <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
+        </div>`;
+        });
+        addProductForm.productname.value = "";
+        addProductForm.price.value = "";
+        addProductForm.img.value = "";
+        addProductForm.description.value = "";
     }
     catch (error) {
         console.error(error.message);
     }
 }));
-getProduct().then((products) => {
+getProduct()
+    .then((products) => {
     for (const product of products) {
         let productDiv = document.createElement("div");
         productDiv.className = "product";
-        productDiv.setAttribute('data-id', `${product.id}`);
+        productDiv.setAttribute("data-id", `${product.id}`);
         let productContent = document.createElement("div");
         productContent.className = "product-content";
         let productImage = document.createElement("img");
@@ -191,17 +212,28 @@ getProduct().then((products) => {
         productContent.append(productH2, productP, productSpan);
         productDiv.append(productImage, productContent);
         productsBox.appendChild(productDiv);
-        productDiv.addEventListener('click', () => {
+        productDiv.addEventListener("click", () => {
             let id = productDiv.getAttribute("data-id");
             if (id !== null) {
                 console.log("ID", id);
                 console.log("Name", product.name);
                 console.log("Name", product.price);
                 aboutProductOverlay.classList.add("show");
+                aboutProduct.innerHTML = `<div class="about-product-img">
+            <img src="${product.img}" alt="">
+         </div>
+         <div class="about-product-text">
+            <p class="productname">${product.name}</p>
+            <p class="shopname">brend: <span> ${product.shopname}</span></p>
+            <p class="productprice">price: <span> ${product.price}</span></p>
+            <p class="description">${product.description}</p>
+            <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
+         </div>`;
             }
         });
     }
-}).catch((error) => {
+})
+    .catch((error) => {
     console.error(error.message);
 });
 closeAboutProduct.addEventListener("click", () => {
