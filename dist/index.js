@@ -88,7 +88,7 @@ function universal(btn, loadingMsg, fetchFn) {
 }
 registerForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
     e.preventDefault();
-    const shopname = registerForm.shopname.value.trim();
+    const shopname = registerForm.shopname.value.trim().toLowerCase();
     const firstname = registerForm.firstname.value.trim();
     const lastname = registerForm.lastname.value.trim();
     const phone = registerForm.phone.value;
@@ -108,19 +108,41 @@ registerForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0,
         avatar,
     };
     try {
-        if (password === confirmPassword) {
-            const res = yield fetch(`${baseURL}`, {
-                method: "POST",
-                body: JSON.stringify(mockUser),
-                headers: {
-                    "content-type": "application/json",
-                },
-            });
-            const { data } = yield res.json();
-            window.location.href = `../cabinet/?id=${data.id}`;
+        const res1 = yield fetch(`${baseURL}`);
+        const { data: users } = yield res1.json();
+        const shopnames = users.map((user) => user.shopname);
+        const phones = users.map((user) => user.phone);
+        const emails = users.map((user) => user.email);
+        if (shopnames.includes(mockUser.shopname)) {
+            alertFunction("A user with this shop name already exists. Please choose a different one.", false);
+        }
+        else if (mockUser.shopname.includes(" ")) {
+            alertFunction("Shopname orasida bo'shliq bo'lmasin", false);
+        }
+        else if (phones.includes(mockUser.phone)) {
+            alertFunction("A user with this phone number already exists. Please choose a different one.", false);
+        }
+        else if (emails.includes(mockUser.email)) {
+            alertFunction("A user with this email already exists. Please choose a different one.", false);
+        }
+        else if (password !== confirmPassword) {
+            alertFunction("Confirm password incorrect", false);
         }
         else {
-            alertFunction("Confirm password incorrect", false);
+            try {
+                const res = yield fetch(`${baseURL}`, {
+                    method: "POST",
+                    body: JSON.stringify(mockUser),
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                });
+                const { data } = yield res.json();
+                window.location.href = `../cabinet/?id=${data.id}`;
+            }
+            catch (error) {
+                alertFunction("Error submitting form", false);
+            }
         }
     }
     catch (error) {

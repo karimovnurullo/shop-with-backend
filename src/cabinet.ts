@@ -6,29 +6,25 @@ const profileMenu = document.querySelector<HTMLDivElement>(".profile-menu")!;
 const editProfile = document.querySelector<HTMLDivElement>(".edit-profile")!;
 const logOut = document.querySelector<HTMLDivElement>(".log-out")!;
 const addProduct = document.querySelector<HTMLDivElement>(".add-product")!;
-const addProductOverlay = document.querySelector<HTMLDivElement>(
-  ".add-product-overlay"
-)!;
+const addProductOverlay = document.querySelector<HTMLDivElement>(".add-product-overlay")!;
 const productsBox = document.querySelector<HTMLDivElement>(".products-box")!;
 const productDiv = document.querySelector<HTMLDivElement>(".product")!;
-const aboutProductOverlay = document.querySelector<HTMLDivElement>(
-  ".about-product-overlay"
-)!;
-const closeAboutProduct = document.querySelector<HTMLDivElement>(
-  ".close-about-product"
-)!;
+const aboutProductOverlay = document.querySelector<HTMLDivElement>(".about-product-overlay")!;
+const closeAboutProduct = document.querySelector<HTMLDivElement>(".close-about-product")!;
 const aboutProduct = document.querySelector<HTMLDivElement>(".about-product")!;
-
-const addProductForm =
-  document.querySelector<HTMLFormElement>(".add-product-form")!;
-
-const editProfileOverlay = document.querySelector<HTMLDivElement>(
-  ".edit-profile-overlay"
-)!;
+const addProductForm = document.querySelector<HTMLFormElement>(".add-product-form")!;
+const editProfileOverlay = document.querySelector<HTMLDivElement>(".edit-profile-overlay")!;
 const editForm = document.querySelector<HTMLFormElement>(".edit-form")!;
-const closeEditForm =
-  document.querySelector<HTMLDivElement>(".close-edit-form")!;
+const closeEditForm = document.querySelector<HTMLDivElement>(".close-edit-form")!;
 const closeAddForm = document.querySelector<HTMLDivElement>(".close-add-form")!;
+const editProductBtn = document.querySelector<HTMLDivElement>(".edit-product")!;
+const editProductsOverlay = document.querySelector<HTMLDivElement>(".edit-products-overlay")!;
+const closeEditProducts = document.querySelector<HTMLDivElement>(".close-edit-products")!;
+const aditProductsBox = document.querySelector<HTMLDivElement>(".edit-products-box")!;
+const productsNumber = document.querySelector<HTMLDivElement>(".products-number")!;
+const editProductForm = document.querySelector<HTMLFormElement>(".edit-product-form")!;
+const editProductOverlay = document.querySelector<HTMLDivElement>(".edit-product-overlay")!;
+const closeEditProductForm = document.querySelector<HTMLDivElement>(".close-edit-product-form")!;
 
 const getUser = async () => {
   let href = location.search;
@@ -46,6 +42,8 @@ const getProduct = async () => {
   return data.data;
 };
 
+// =========================== Profile Setting Start =========================
+
 getUser()
   .then((user) => {
     profileName.textContent = user.lastname + " " + user.firstname;
@@ -57,38 +55,42 @@ getUser()
     profile.appendChild(avatar1);
     imgBox.appendChild(avatar2);
   })
-  .catch((error) => {
+  .catch((error: any) => {
     console.error(error.message);
   });
 
-profile.addEventListener("click", () => {
-  profileMenu.classList.toggle("show");
-});
-
+profile.addEventListener("click", () => profileMenu.classList.toggle("show"));
 window.addEventListener("click", (event) => {
   if (!(event.target as HTMLElement).closest(".profile")) {
     profileMenu.classList.remove("show");
   }
 });
+addProduct.addEventListener("click", () => addProductOverlay.classList.add("show"));
+closeAddForm.addEventListener("click", () => addProductOverlay.classList.remove("show"));
+logOut.addEventListener("click", () => window.location.href = "/");
+closeEditProducts.addEventListener("click", () => editProductsOverlay.classList.remove("show"));
+closeEditProductForm.addEventListener("click", () => editProductOverlay.classList.remove("show"));
 
-addProduct.addEventListener("click", () => {
-  addProductOverlay.classList.add("show");
-});
+// =========================== Profile Setting End =========================
+
+
+
+
+// =========================== Edit Profile Start =========================
 
 editProfile.addEventListener("click", async () => {
   editProfileOverlay.classList.add("show");
-
   try {
     const user = await getUser();
-
-    let shopname = (editForm.shopname.value = user.shopname);
-    let firstname = (editForm.firstname.value = user.firstname);
-    let lastname = (editForm.lastname.value = user.lastname);
-    let phone = (editForm.phone.value = user.phone);
-    let date = (editForm.date.value = user.date);
-    let email = (editForm.email.value = user.email);
-    let password = (editForm.password.value = user.password);
-    let avatar = (editForm.avatar.value = user.avatar);
+    const { shopname, firstname, lastname, phone, date, email, password, avatar } = user;
+    editForm.shopname.value = shopname;
+    editForm.firstname.value = firstname;
+    editForm.lastname.value = lastname;
+    editForm.phone.value = phone;
+    editForm.date.value = date;
+    editForm.email.value = email;
+    editForm.password.value = password;
+    editForm.avatar.value = avatar;
   } catch (error: any) {
     console.error("Error editing user:", error.message);
   }
@@ -137,33 +139,26 @@ editForm.addEventListener("submit", async (event) => {
   // }
 });
 
-closeEditForm.addEventListener("click", () => {
-  editProfileOverlay.classList.remove("show");
-});
+closeEditForm.addEventListener("click", () => editProfileOverlay.classList.remove("show"));
 
-closeAddForm.addEventListener("click", () => {
-  addProductOverlay.classList.remove("show");
-});
+// =========================== Edit Profile End =========================
 
-logOut.addEventListener("click", () => {
-  window.location.href = "/";
-});
+
+
+
+// =========================== Add Prodcut Start =========================
+
 
 addProductForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = addProductForm.productname.value.trim();
   const price = addProductForm.price.value.trim();
-  const img = addProductForm.img.value.trim();
+  const img = addProductForm.img.value;
   const description = addProductForm.description.value.trim();
+  const basket = false;
   try {
     const user = await getUser();
-    const mockProduct = {
-      img,
-      shopname: user.shopname,
-      name,
-      price,
-      description,
-    };
+    const mockProduct = { img, shopname: user.shopname, name, price, description, basket };
     const res = await fetch(`http://localhost:2020/api/products`, {
       method: "POST",
       body: JSON.stringify(mockProduct),
@@ -176,74 +171,80 @@ addProductForm.addEventListener("submit", async (e) => {
     const { data } = await res.json();
 
     let productDiv = document.createElement("div");
-    productDiv.className = "product";
-
+    let imgBox = document.createElement("div");
     let productContent = document.createElement("div");
-    productContent.className = "product-content";
-
     let productImage = document.createElement("img");
-    productImage.src = data.img;
-
     let productH2 = document.createElement("h2");
-    productH2.textContent = data.name;
-
-    let productP = document.createElement("p");
-    productP.textContent = data.description;
-
     let productSpan = document.createElement("span");
-    productSpan.textContent = data.price;
-
-    productContent.append(productH2, productP, productSpan);
-    productDiv.append(productImage, productContent);
-
+    let basketBtn = document.createElement("div");
+    productDiv.className = "product";
+    productDiv.setAttribute("data-id", `${data.id}`);
+    imgBox.className = "img-box";
+    productContent.className = "product-content";
+    productImage.src = data.img;
+    productH2.textContent = data.name;
+    productSpan.textContent = data.price + " " + "so'm";
+    basketBtn.className = 'add-basket-product';
+    basketBtn.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
+    imgBox.append(productImage);
+    productContent.append(productH2, productSpan, basketBtn);
+    productDiv.append(imgBox, productContent);
     productsBox.appendChild(productDiv);
     productDiv.addEventListener("click", () => {
       aboutProductOverlay.classList.add("show");
-      aboutProduct.innerHTML = `<div class="about-product-img">
-           <img src="${data.img}" alt="">
+      aboutProduct.innerHTML = `
+        <div class="about-product-img">
+            <img src="${data.img}" alt="">
         </div>
         <div class="about-product-text">
            <p class="productname">${data.name}</p>
            <p class="shopname">brend: <span> ${data.shopname}</span></p>
-           <p class="productprice">price: <span> ${data.price}</span></p>
+           <p class="productprice">price: <span> ${data.price} so'm</span></p>
            <p class="description">${data.description}</p>
            <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
         </div>`;
+
     });
-    addProductForm.productname.value = "";
-    addProductForm.price.value = "";
-    addProductForm.img.value = "";
-    addProductForm.description.value = "";
+    // addProductForm.img.value = "";
+    // addProductForm.productname.value = "";
+    // addProductForm.price.value = "";
+    // addProductForm.description.value = "";
+    addProductForm.reset();
   } catch (error: any) {
     console.error(error.message);
   }
 });
 
+// =========================== Add Prodcut End =========================
+
+
+
+
+
+// =========================== Show Prodcuts Start =========================
 
 getProduct()
   .then((products) => {
     for (const product of products) {
       let productDiv = document.createElement("div");
+      let imgBox = document.createElement("div");
+      let productContent = document.createElement("div");
+      let productImage = document.createElement("img");
+      let productH2 = document.createElement("h2");
+      let productSpan = document.createElement("span");
+      let basket = document.createElement("div");
       productDiv.className = "product";
       productDiv.setAttribute("data-id", `${product.id}`);
-
-      let productContent = document.createElement("div");
+      imgBox.className = "img-box";
       productContent.className = "product-content";
-
-      let productImage = document.createElement("img");
       productImage.src = product.img;
-
-      let productH2 = document.createElement("h2");
       productH2.textContent = product.name;
-
-      let productP = document.createElement("p");
-      productP.textContent = product.description;
-
-      let productSpan = document.createElement("span");
-      productSpan.textContent = product.price;
-
-      productContent.append(productH2, productP, productSpan);
-      productDiv.append(productImage, productContent);
+      productSpan.textContent = product.price + "  " + "so'm";
+      basket.className = 'add-basket-product';
+      basket.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
+      imgBox.append(productImage);
+      productContent.append(productH2, productSpan, basket);
+      productDiv.append(imgBox, productContent);
 
       productsBox.appendChild(productDiv);
       productDiv.addEventListener("click", () => {
@@ -254,12 +255,12 @@ getProduct()
           console.log("Name", product.price);
           aboutProductOverlay.classList.add("show");
           aboutProduct.innerHTML = `<div class="about-product-img">
-            <img src="${product.img}" alt="">
+          <img src="${product.img}" alt="">
          </div>
          <div class="about-product-text">
             <p class="productname">${product.name}</p>
             <p class="shopname">brend: <span> ${product.shopname}</span></p>
-            <p class="productprice">price: <span> ${product.price}</span></p>
+            <p class="productprice">price: <span> ${product.price} so'm</span></p>
             <p class="description">${product.description}</p>
             <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
          </div>`;
@@ -270,7 +271,144 @@ getProduct()
   .catch((error: any) => {
     console.error(error.message);
   });
+closeAboutProduct.addEventListener("click", () => aboutProductOverlay.classList.remove("show"));
 
-closeAboutProduct.addEventListener("click", () => {
-  aboutProductOverlay.classList.remove("show");
+// =========================== Show Prodcuts End =========================
+
+
+let currentId;
+
+editProductBtn.addEventListener("click", async () => {
+  while (aditProductsBox.children.length > 0) {
+    aditProductsBox.children[0].remove();
+  }
+  editProductsOverlay.classList.add("show");
+  let user = await getUser();
+  let userShopname = user.shopname;
+
+  getProduct().then((products) => {
+    let counter = 0;
+    for (const product of products) {
+      if (product.shopname === userShopname) {
+        // list.push(product);
+        counter++;
+        let productDiv = document.createElement("div");
+        let imgBox = document.createElement("div");
+        let productContent = document.createElement("div");
+        let productImage = document.createElement("img");
+        let productH2 = document.createElement("h2");
+        let productSpan = document.createElement("span");
+        let basket = document.createElement("div");
+        productDiv.className = "product";
+        productDiv.setAttribute("data-id", `${product.id}`);
+        imgBox.className = "img-box";
+        productContent.className = "product-content";
+        productImage.src = product.img;
+        productH2.textContent = product.name;
+        productSpan.textContent = product.price + "  " + "so'm";
+        basket.className = 'add-basket-product';
+        basket.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
+        imgBox.append(productImage);
+        productContent.append(productH2, productSpan, basket);
+        productDiv.append(imgBox, productContent);
+        aditProductsBox.appendChild(productDiv);
+
+        productDiv.addEventListener("click", async (e) => {
+          editProductOverlay.classList.add("show");
+          console.log("Clicked");
+          currentId = productDiv.getAttribute("data-id");
+          console.log(currentId);
+          console.log(typeof currentId);
+
+
+          try {
+            const { img, name, price, description } = product;
+            editProductForm.img.value = img;
+            editProductForm.productname.value = name;
+            editProductForm.price.value = price;
+            editProductForm.description.value = description;
+          } catch (error: any) {
+            console.error("Error editing user:", error.message);
+          }
+          // editProductForm.addEventListener("submit", async (event) => {
+          //   event.preventDefault();
+
+          //   const img = editProductForm.img.value;
+          //   const name = editProductForm.productname.value;
+          //   const price = parseFloat(editProductForm.price.value);
+          //   const description = editProductForm.description.value;
+
+          //   const updatedProduct = {
+          //     img,
+          //     name,
+          //     price,
+          //     description,
+          //     basket: false,
+          //   };
+
+          //   try {
+          //     const res = await fetch(`http://localhost:2020/api/products/${id}`, {
+          //       method: "PUT",
+          //       body: JSON.stringify(updatedProduct),
+          //       headers: {
+          //         "Content-Type": "application/json",
+          //       },
+          //     });
+
+          //     // Hide the edit overlay after successful update
+          //     editProductOverlay.classList.remove("show");
+          //   } catch (error: any) {
+          //     console.error("Error updating product:", error.message);
+          //   }
+          // });
+
+        });
+
+
+      }
+
+    }
+    productsNumber.textContent = counter.toString();
+  })
+
+});
+
+editProductForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+
+  getProduct().then(async (products) => {
+    for (const product of products) {
+      if (product.id === currentId) {
+
+        let img = editProductForm.img.value;
+        let name = editProductForm.productname.value;
+        let price = editProductForm.price.value;
+        let description = editProductForm.description.value;
+        let updatedProduct = {
+          img,
+          shopname: product.shopname,
+          name,
+          price,
+          description,
+          basket: false,
+        };
+        try {
+          const res = await fetch(`http://localhost:2020/api/products/${product.id}`, {
+            method: "PUT",
+            body: JSON.stringify(updatedProduct),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          editProductOverlay.classList.remove("show");
+        } catch (error: any) {
+          console.error("Error updating product:", error.message);
+        }
+
+      }
+    }
+  });
+
+
 });

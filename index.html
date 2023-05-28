@@ -6,40 +6,61 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="description" content="" />
-	<link rel="stylesheet" href="./assets/css/main.css" />
+	<link rel="stylesheet" href="./assets/css/index.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 	<title>Users Page</title>
 </head>
 
 <body>
 	<div class="container">
-		<div class="alert-element"></div>
-		<button id="add_user_btn">Add User</button>
-		<button id="get_users_btn">Get Users</button>
-		<button id="update_user_btn">Update User</button>
-		<div class="login-page">
-			<form class="login-form form">
-				<h2 class="form-title">Login</h2>
-				<input type="email" name="email" placeholder="Email">
-				<input type="password" name="password" placeholder="Password">
-				<button class="btn">Enter</button>
-				<p class="login-text form-text">Not registered? <span class="form-text-bold create-btn">Sign up</span></p>
-			</form>
-			<form class="sign-form form hide">
-				<h2 class="form-title">Sign Up</h2>
-				<input type="text" name="shopname" placeholder="Shop name">
-				<input type="text" name="firstname" placeholder="Name">
-				<input type="text" name="lastname" placeholder="Lastname">
-				<input type="number" name="phone" placeholder="Phone">
-				<input type="text" name="date" placeholder="day/month/year">
-				<input type="email" name="email" placeholder="Email">
-				<input type="text" name="password" placeholder="Password">
-				<input type="text" name="passwordConfirm" placeholder="Confirm Password">
-				<button class="sign-btn btn">Register</button>
-				<p class="sign-text form-text">Already registered?<span class="form-text-bold login-btn">Sign in</span></p>
-			</form>
+		<header>
+			<div class="logo"><i class="fa-brands fa-shopify" style="color: #000000; font-size: 40px;"></i>hop</div>
+			<div>
+				<input type="search" class="search" placeholder="Search">
+			</div>
+			<nav class="nav">
+				<div class="basket"><i class="fa-solid fa-cart-shopping"></i></div>
+				<div class="main-login-btn"> Login
+				</div>
+			</nav>
+		</header>
+		<div class="products-box">
+
+			<!-- <div class="product">
+				<div class="img-box">
+					<img src="https://images.uzum.uz/chefq47hj8jf3edh7m10/original.jpg" alt="">
+				</div>
+				<div class="product-content">
+					<h2>iPhone 14 asdasd adfsd fsdfd adsd asdasd</h2>
+					<span>$10 00.5 64.3 sum</span>
+					<div class="add-basket-product"><i class="fa-solid fa-cart-plus" style="color: #000000;"></i></div>
+				</div>
+			</div> -->
 		</div>
+
+		<div class="about-product-overlay">
+			<i class="fa-solid fa-xmark close-about-product" style="color: #000000;"></i>
+			<div class="about-product">
+
+				<!-- <div class="about-product-img">
+               <img src="https://i.pinimg.com/564x/c5/24/f4/c524f492f17a8d8e0e214334625244e1.jpg" alt="">
+            </div>
+            <div class="about-product-text">
+               <p class="productname">Mbhnjvefcwkdxiufht</p>
+               <p class="shopname">brend: <span> madina shop</span></p>
+               <p class="productprice">price: <span> 23434432</span></p>
+               <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati odio ex incidunt eaque, praesentium officiis quas eveniet facere, inventore nobis debitis quae, dolorem voluptatum rem numquam cum accusamus. Commodi, facilis!</p>
+               <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
+            </div> -->
+			</div>
+		</div>
+		<footer class="footer">
+			<p>&copy;2023 All Rights Reserved Developed by <a href="https://github.com/Madinakhan"
+					target="_blank">Madina</a> and <a href="https://github.com/karimovnurullo" target="_blank">Nurullo</a>
+			</p>
+		</footer>
 	</div>
 </body>
-<script type="module" src="./dist/index.js"></script>
+<script type="module" src="./dist/main.js"></script>
 
 </html>

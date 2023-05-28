@@ -36,8 +36,12 @@
                   <div>Edit profil</div>
                </div>
                <div class="add-product item">
-                  <div><i class="fa-solid fa-plus" style="color: #000000;"></i></div>
-                  <div>Add Product</div>
+                  <div><i class="fa-solid fa-square-plus" style="color: #000000;"></i></div>
+                  <div>Add Products</div>
+               </div>
+               <div class="edit-product item">
+                  <div><i class="fa-solid fa-file-pen" style="color: #000000;"></i></div>
+                  <div>Edit Products</div>
                </div>
                <div class="log-out item">
                   <div><i class="fa-solid fa-right-from-bracket" style="color: #ff0000;"></i></div>
@@ -47,26 +51,29 @@
 
          </nav>
       </header>
+
       <div class="products-box">
          <!-- <div class="product">
-            <img
-               src="data:image/jpeg;base64,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"
-               alt="">
+            <div class="img-box">
+               <img src="" alt="">
+            </div>
             <div class="product-content">
-               <h2>iPhone 14</h2>
+               <h2>iPhone 14 asdasd adfsd fsdfd adsd asdasd</h2>
                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum exercitationem, veritatis
                   repellendus ut quidem eaque molestiae dolore suscipit commodi enim, perspiciatis earum ipsam
                   repudiandae? Delectus earum rem ipsum facere quidem.</p>
-               <span>$1000</span>
-            </div>
+               <span>$10 00.5 64.3 sum</span>
+               <div class="add-basket-product"><i class="fa-solid fa-cart-plus" style="color: #000000;"></i></div>
+            </div>   
          </div> -->
       </div>
+
       <div class="edit-profile-overlay">
          <form class="edit-form form hide">
             <input type="text" name="shopname" placeholder="Shop name">
             <input type="text" name="firstname" placeholder="Name">
             <input type="text" name="lastname" placeholder="Lastname">
-            <input type="number" name="phone" placeholder="Phone">
+            <input type="text" name="phone" placeholder="Phone">
             <input type="text" name="date" placeholder="day/month/year">
             <input type="email" name="email" placeholder="Email">
             <input type="text" name="password" placeholder="New password">
@@ -75,6 +82,7 @@
          </form>
          <i class="uil uil-times close-edit-form"></i>
       </div>
+
       <div class="add-product-overlay">
          <form class="add-product-form form hide">
             <input type="text" name="img" placeholder="Img url">
@@ -85,6 +93,7 @@
          </form>
          <i class="uil uil-times close-add-form"></i>
       </div>
+
       <div class="about-product-overlay">
          <i class="uil uil-times close-about-product"></i>
          <div class="about-product">
@@ -100,8 +109,45 @@
             </div> -->
          </div>
       </div>
-      <!-- <h1>Cabinet</h1> -->
-      <!-- <h1 class="user-name"></h1> -->
+
+      <div class="edit-products-overlay">
+         <i class="uil uil-times close-edit-products"></i>
+         <div class="edit-products-box-nav">
+            <div>Your Products</div>
+            <div class="products-number"></div>
+         </div>
+         <div class="edit-product-overlay">
+            <i class="uil uil-times close-edit-product-form"></i>
+            <form class="edit-product-form form hide">
+               <input type="text" name="img" placeholder="Img">
+               <input type="text" name="productname" placeholder="Name">
+               <input type="text" name="price" placeholder="Price">
+               <input type="text" name="description" placeholder="description">
+               <button class="edit-btn btn">Edit Product</button>
+            </form>
+         </div>
+         <div class="edit-products-box">
+            <!-- <div class="product">
+               <div class="img-box">
+                  <img src="" alt="">
+               </div>
+               <div class="product-content">
+                  <h2>iPhone 14 asdasd adfsd fsdfd adsd asdasd</h2>
+                  <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum exercitationem, veritatis
+                     repellendus ut quidem eaque molestiae dolore suscipit commodi enim, perspiciatis earum ipsam
+                     repudiandae? Delectus earum rem ipsum facere quidem.</p>
+                  <span>$10 00.5 64.3 sum</span>
+                  <div class="add-basket-product"><i class="fa-solid fa-cart-plus" style="color: #000000;"></i></div>
+               </div>   
+            </div> -->
+         </div>
+      </div>
+
+      <footer class="footer">
+         <p>&copy;2023 All Rights Reserved Developed by <a href="https://github.com/Madinakhan"
+               target="_blank">Madina</a> and <a href="https://github.com/karimovnurullo" target="_blank">Nurullo</a>
+         </p>
+      </footer>
 
    </div>
    <script src="../dist/cabinet.js"></script>

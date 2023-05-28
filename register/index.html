@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Cabinet</title>
+   <link rel="stylesheet" href="../assets/css/register.css">
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+   <div class="container">
+      <div class="alert-element"></div>
+      <button id="add_user_btn">Add User</button>
+      <button id="get_users_btn">Get Users</button>
+      <button id="update_user_btn">Update User</button>
+      <div class="login-page">
+         <form class="login-form form">
+            <h2 class="form-title">Login</h2>
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <button class="btn">Enter</button>
+            <p class="login-text form-text">Not registered? <span class="form-text-bold create-btn">Sign up</span></p>
+         </form>
+         <form class="sign-form form hide">
+            <h2 class="form-title">Sign Up</h2>
+            <input type="text" name="shopname" placeholder="Shop name">
+            <input type="text" name="firstname" placeholder="Name">
+            <input type="text" name="lastname" placeholder="Lastname">
+            <input type="text" name="phone" placeholder="Phone number">
+            <input type="text" name="date" placeholder="day/month/year">
+            <input type="email" name="email" placeholder="Email">
+            <input type="text" name="password" placeholder="Password">
+            <input type="text" name="passwordConfirm" placeholder="Confirm Password">
+            <button class="sign-btn btn">Register</button>
+            <p class="sign-text form-text">Already registered?<span class="form-text-bold login-btn">Sign in</span></p>
+         </form>
+      </div>
+   </div>
+
+   <script src="../dist/index.js"></script>
+</body>
+
+</html>
