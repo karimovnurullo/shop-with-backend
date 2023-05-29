@@ -25,7 +25,7 @@ const productsNumber = document.querySelector<HTMLDivElement>(".products-number"
 const editProductForm = document.querySelector<HTMLFormElement>(".edit-product-form")!;
 const editProductOverlay = document.querySelector<HTMLDivElement>(".edit-product-overlay")!;
 const closeEditProductForm = document.querySelector<HTMLDivElement>(".close-edit-product-form")!;
-
+const deleteProductBtn = document.querySelector<HTMLButtonElement>('.delete-product')!;
 const getUser = async () => {
   let href = location.search;
   if (href !== "") {
@@ -298,7 +298,7 @@ editProductBtn.addEventListener("click", async () => {
         let productImage = document.createElement("img");
         let productH2 = document.createElement("h2");
         let productSpan = document.createElement("span");
-        let basket = document.createElement("div");
+        // let deleteBtn = document.createElement("div");
         productDiv.className = "product";
         productDiv.setAttribute("data-id", `${product.id}`);
         imgBox.className = "img-box";
@@ -306,10 +306,10 @@ editProductBtn.addEventListener("click", async () => {
         productImage.src = product.img;
         productH2.textContent = product.name;
         productSpan.textContent = product.price + "  " + "so'm";
-        basket.className = 'add-basket-product';
-        basket.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
+        // deleteBtn.className = 'delete-product';
+        // deleteBtn.innerHTML = `<i class="fa-solid fa-trash" style="color: #ff0000;"></i>`;
         imgBox.append(productImage);
-        productContent.append(productH2, productSpan, basket);
+        productContent.append(productH2, productSpan);
         productDiv.append(imgBox, productContent);
         aditProductsBox.appendChild(productDiv);
 
@@ -319,9 +319,19 @@ editProductBtn.addEventListener("click", async () => {
           currentId = productDiv.getAttribute("data-id");
           console.log(currentId);
           console.log(typeof currentId);
-
+          deleteProductBtn.setAttribute("data-id", currentId);
 
           try {
+            // const deleteBtn = document.createElement('div');
+            // deleteBtn.className = "delete-product";
+            // deleteBtn.innerHTML = "Delete this product";
+            // editProductOverlay.appendChild(deleteBtn);
+            // deleteBtn.addEventListener("click", () => {
+            //   console.log(currentId);
+
+            // })
+
+
             const { img, name, price, description } = product;
             editProductForm.img.value = img;
             editProductForm.productname.value = name;
@@ -330,38 +340,6 @@ editProductBtn.addEventListener("click", async () => {
           } catch (error: any) {
             console.error("Error editing user:", error.message);
           }
-          // editProductForm.addEventListener("submit", async (event) => {
-          //   event.preventDefault();
-
-          //   const img = editProductForm.img.value;
-          //   const name = editProductForm.productname.value;
-          //   const price = parseFloat(editProductForm.price.value);
-          //   const description = editProductForm.description.value;
-
-          //   const updatedProduct = {
-          //     img,
-          //     name,
-          //     price,
-          //     description,
-          //     basket: false,
-          //   };
-
-          //   try {
-          //     const res = await fetch(`http://localhost:2020/api/products/${id}`, {
-          //       method: "PUT",
-          //       body: JSON.stringify(updatedProduct),
-          //       headers: {
-          //         "Content-Type": "application/json",
-          //       },
-          //     });
-
-          //     // Hide the edit overlay after successful update
-          //     editProductOverlay.classList.remove("show");
-          //   } catch (error: any) {
-          //     console.error("Error updating product:", error.message);
-          //   }
-          // });
-
         });
 
 
@@ -375,8 +353,6 @@ editProductBtn.addEventListener("click", async () => {
 
 editProductForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-
-
   getProduct().then(async (products) => {
     for (const product of products) {
       if (product.id === currentId) {
@@ -401,6 +377,10 @@ editProductForm.addEventListener("submit", async (event) => {
               "Content-Type": "application/json",
             },
           });
+
+          let user = await getUser();
+          let userID = user.id;
+          window.location.href = `?id=${userID}`;
           editProductOverlay.classList.remove("show");
         } catch (error: any) {
           console.error("Error updating product:", error.message);
@@ -410,5 +390,25 @@ editProductForm.addEventListener("submit", async (event) => {
     }
   });
 
+});
+deleteProductBtn.addEventListener("click", async (e) => {
+  let id = deleteProductBtn.getAttribute("data-id")!;
+  console.log(id);
+  try {
+    const res = await fetch(`http://localhost:2020/api/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
+    if (res.ok) {
+      let user = await getUser();
+      let userID = user.id;
+      window.location.href = `?id=${userID}`;
+    }
+    editProductOverlay.classList.remove("show");
+  } catch (error: any) {
+    console.error("Error deleting product:", error.message);
+  }
 });

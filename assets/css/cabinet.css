@@ -493,7 +493,18 @@ header {
    width: 100%;
    height: calc(100vh - 30px);
    border-radius: 0;
+   gap: 50px;
+   flex-direction: column;
    left: 0;
+}
+
+.delete-product {
+   padding: 10px 20px;
+   border-radius: 10px;
+   background-color: red;
+   color: #333;
+   font-size: 22px;
+   border: 0;
 }
 
 .footer {
