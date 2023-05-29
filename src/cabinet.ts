@@ -6,29 +6,58 @@ const profileMenu = document.querySelector<HTMLDivElement>(".profile-menu")!;
 const editProfile = document.querySelector<HTMLDivElement>(".edit-profile")!;
 const logOut = document.querySelector<HTMLDivElement>(".log-out")!;
 const addProduct = document.querySelector<HTMLDivElement>(".add-product")!;
-const addProductOverlay = document.querySelector<HTMLDivElement>(".add-product-overlay")!;
+const addProductOverlay = document.querySelector<HTMLDivElement>(
+  ".add-product-overlay"
+)!;
 const productsBox = document.querySelector<HTMLDivElement>(".products-box")!;
 const productDiv = document.querySelector<HTMLDivElement>(".product")!;
-const aboutProductOverlay = document.querySelector<HTMLDivElement>(".about-product-overlay")!;
-const closeAboutProduct = document.querySelector<HTMLDivElement>(".close-about-product")!;
+const aboutProductOverlay = document.querySelector<HTMLDivElement>(
+  ".about-product-overlay"
+)!;
+const closeAboutProduct = document.querySelector<HTMLDivElement>(
+  ".close-about-product"
+)!;
 const aboutProduct = document.querySelector<HTMLDivElement>(".about-product")!;
-const addProductForm = document.querySelector<HTMLFormElement>(".add-product-form")!;
-const editProfileOverlay = document.querySelector<HTMLDivElement>(".edit-profile-overlay")!;
+const addProductForm =
+  document.querySelector<HTMLFormElement>(".add-product-form")!;
+const editProfileOverlay = document.querySelector<HTMLDivElement>(
+  ".edit-profile-overlay"
+)!;
 const editForm = document.querySelector<HTMLFormElement>(".edit-form")!;
-const closeEditForm = document.querySelector<HTMLDivElement>(".close-edit-form")!;
+const closeEditForm =
+  document.querySelector<HTMLDivElement>(".close-edit-form")!;
 const closeAddForm = document.querySelector<HTMLDivElement>(".close-add-form")!;
 const editProductBtn = document.querySelector<HTMLDivElement>(".edit-product")!;
-const editProductsOverlay = document.querySelector<HTMLDivElement>(".edit-products-overlay")!;
-const closeEditProducts = document.querySelector<HTMLDivElement>(".close-edit-products")!;
-const aditProductsBox = document.querySelector<HTMLDivElement>(".edit-products-box")!;
-const productsNumber = document.querySelector<HTMLDivElement>(".products-number")!;
-const editProductForm = document.querySelector<HTMLFormElement>(".edit-product-form")!;
-const editProductOverlay = document.querySelector<HTMLDivElement>(".edit-product-overlay")!;
-const closeEditProductForm = document.querySelector<HTMLDivElement>(".close-edit-product-form")!;
-const deleteProductBtn = document.querySelector<HTMLButtonElement>('.delete-product')!;
-const basketBtn = document.querySelector<HTMLDivElement>('.basket')!;
-const basketOverlay = document.querySelector<HTMLDivElement>(".basket-overlay")!;
-const closeBasket = document.querySelector<HTMLDivElement>('.close-basket')!;
+const editProductsOverlay = document.querySelector<HTMLDivElement>(
+  ".edit-products-overlay"
+)!;
+const closeEditProducts = document.querySelector<HTMLDivElement>(
+  ".close-edit-products"
+)!;
+const aditProductsBox =
+  document.querySelector<HTMLDivElement>(".edit-products-box")!;
+const productsNumber =
+  document.querySelector<HTMLDivElement>(".products-number")!;
+const editProductForm =
+  document.querySelector<HTMLFormElement>(".edit-product-form")!;
+const editProductOverlay = document.querySelector<HTMLDivElement>(
+  ".edit-product-overlay"
+)!;
+const closeEditProductForm = document.querySelector<HTMLDivElement>(
+  ".close-edit-product-form"
+)!;
+const deleteProductBtn =
+  document.querySelector<HTMLButtonElement>(".delete-product")!;
+const basketBtn = document.querySelector<HTMLDivElement>(".basket")!;
+const basketOverlay =
+  document.querySelector<HTMLDivElement>(".basket-overlay")!;
+const closeBasket = document.querySelector<HTMLDivElement>(".close-basket")!;
+const basketProductsNumber = document.querySelector<HTMLDivElement>(
+  ".basket-products-number"
+)!;
+const basketIconNumber = document.querySelector<HTMLDivElement>(
+  ".basket-icon-number"
+)!;
 
 
 const getUser = async () => {
@@ -46,6 +75,14 @@ const getProduct = async () => {
   const data = await reponse.json();
   return data.data;
 };
+
+const getBaskets = async () => {
+  const reponse = await fetch(`http://localhost:3030/api/baskets/`);
+  const data = await reponse.json();
+  return data.data;
+};
+
+// getProduct()
 
 // =========================== Profile Setting Start =========================
 
@@ -70,18 +107,25 @@ window.addEventListener("click", (event) => {
     profileMenu.classList.remove("show");
   }
 });
-addProduct.addEventListener("click", () => addProductOverlay.classList.add("show"));
-closeAddForm.addEventListener("click", () => addProductOverlay.classList.remove("show"));
-logOut.addEventListener("click", () => window.location.href = "/");
-closeEditProducts.addEventListener("click", () => editProductsOverlay.classList.remove("show"));
-closeEditProductForm.addEventListener("click", () => editProductOverlay.classList.remove("show"));
+addProduct.addEventListener("click", () =>
+  addProductOverlay.classList.add("show")
+);
+closeAddForm.addEventListener("click", () =>
+  addProductOverlay.classList.remove("show")
+);
+logOut.addEventListener("click", () => (window.location.href = "/"));
+closeEditProducts.addEventListener("click", () =>
+  editProductsOverlay.classList.remove("show")
+);
+closeEditProductForm.addEventListener("click", () =>
+  editProductOverlay.classList.remove("show")
+);
 basketBtn.addEventListener("click", () => basketOverlay.classList.add("show"));
-closeBasket.addEventListener("click", () => basketOverlay.classList.remove("show"));
+closeBasket.addEventListener("click", () =>
+  basketOverlay.classList.remove("show")
+);
 
 // =========================== Profile Setting End =========================
-
-
-
 
 // =========================== Edit Profile Start =========================
 
@@ -89,7 +133,16 @@ editProfile.addEventListener("click", async () => {
   editProfileOverlay.classList.add("show");
   try {
     const user = await getUser();
-    const { shopname, firstname, lastname, phone, date, email, password, avatar } = user;
+    const {
+      shopname,
+      firstname,
+      lastname,
+      phone,
+      date,
+      email,
+      password,
+      avatar,
+    } = user;
     editForm.shopname.value = shopname;
     editForm.firstname.value = firstname;
     editForm.lastname.value = lastname;
@@ -146,15 +199,13 @@ editForm.addEventListener("submit", async (event) => {
   // }
 });
 
-closeEditForm.addEventListener("click", () => editProfileOverlay.classList.remove("show"));
+closeEditForm.addEventListener("click", () =>
+  editProfileOverlay.classList.remove("show")
+);
 
 // =========================== Edit Profile End =========================
 
-
-
-
 // =========================== Add Prodcut Start =========================
-
 
 addProductForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -165,7 +216,14 @@ addProductForm.addEventListener("submit", async (e) => {
   const basket = false;
   try {
     const user = await getUser();
-    const mockProduct = { img, shopname: user.shopname, name, price, description, basket };
+    const mockProduct = {
+      img,
+      shopname: user.shopname,
+      name,
+      price,
+      description,
+      basket,
+    };
     // const res = await fetch(`http://localhost:2020/api/products`);
 
     const res = await fetch(`http://localhost:2020/api/products`, {
@@ -193,7 +251,7 @@ addProductForm.addEventListener("submit", async (e) => {
     productImage.src = data.img;
     productH2.textContent = data.name;
     productSpan.textContent = data.price + " " + "so'm";
-    basketBtn.className = 'add-basket-product';
+    basketBtn.className = "add-basket-product";
     basketBtn.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
     imgBox.append(productImage);
     productContent.append(productH2, productSpan, basketBtn);
@@ -212,12 +270,7 @@ addProductForm.addEventListener("submit", async (e) => {
            <p class="description">${data.description}</p>
            <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
         </div>`;
-
     });
-    // addProductForm.img.value = "";
-    // addProductForm.productname.value = "";
-    // addProductForm.price.value = "";
-    // addProductForm.description.value = "";
     addProductForm.reset();
   } catch (error: any) {
     console.error(error.message);
@@ -226,11 +279,8 @@ addProductForm.addEventListener("submit", async (e) => {
 
 // =========================== Add Prodcut End =========================
 
-
-
-
-
 // =========================== Show Prodcuts Start =========================
+let currentBasketId;
 
 getProduct()
   .then((products) => {
@@ -249,7 +299,8 @@ getProduct()
       productImage.src = product.img;
       productH2.textContent = product.name;
       productSpan.textContent = product.price + "  " + "so'm";
-      basket.className = 'add-basket-product';
+      basket.className = "add-basket-product";
+      basket.setAttribute("data-id", `${product.id}`);
       basket.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
       imgBox.append(productImage);
       productContent.append(productH2, productSpan, basket);
@@ -259,9 +310,6 @@ getProduct()
       productDiv.addEventListener("click", () => {
         let id = productDiv.getAttribute("data-id");
         if (id !== null) {
-          console.log("ID", id);
-          console.log("Name", product.name);
-          console.log("Name", product.price);
           aboutProductOverlay.classList.add("show");
           aboutProduct.innerHTML = `<div class="about-product-img">
           <img src="${product.img}" alt="">
@@ -275,16 +323,120 @@ getProduct()
          </div>`;
         }
       });
+      // basket.addEventListener("click", async (e) => {
+      //   let baskets = await getBaskets();
+      //   let id = basket.getAttribute("data-id");
+      //   currentBasketId = id;
+      //   let currentUser = await getUser();
+      //   let userID = currentUser.id;
+      //   let productID = id;
+      //   let newBasket = {
+      //     userID,
+      //     productID,
+      //   };
+
+
+      //   const res = await fetch(`http://localhost:3030/api/baskets`, {
+      //     method: "POST",
+      //     body: JSON.stringify(newBasket),
+      //     headers: {
+      //       "content-type": "application/json",
+      //     },
+      //   });
+      //   // addProductOverlay.classList.remove("show");
+
+      //   const { data } = await res.json();
+      //   console.log("User id", data.userID);
+      //   console.log("Product id", data.productID);
+      //   console.log("Product name", product.name);
+      // });
+
+      basket.addEventListener("click", async (e) => {
+        let id = basket.getAttribute("data-id");
+        currentBasketId = id;
+
+        const currentUser = await getUser();
+        const userID = currentUser.id;
+        const productID = id;
+        const baskets = await getBaskets();
+        const existingBasket = baskets.find(basket => basket.productID === productID && basket.userID === userID);
+
+        if (existingBasket) {
+          alert('This product is already in your basket.');
+        } else {
+          const newBasket = { userID, productID };
+          const res = await fetch(`http://localhost:3030/api/baskets`, {
+            method: "POST",
+            body: JSON.stringify(newBasket),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const { data } = await res.json();
+          console.log("User id", data.userID);
+          console.log("Product id", data.productID);
+          console.log("Product name", product.name);
+        }
+      });
+
     }
   })
   .catch((error: any) => {
     console.error(error.message);
   });
-closeAboutProduct.addEventListener("click", () => aboutProductOverlay.classList.remove("show"));
+closeAboutProduct.addEventListener("click", () =>
+  aboutProductOverlay.classList.remove("show")
+);
 
 // =========================== Show Prodcuts End =========================
 
+let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
+async function showBaskets() {
+  let user = await getUser();
+  let products = await getProduct();
+  getBaskets().then((baskets) => {
+    let counter = 0;
+    for (const basket of baskets) {
+      if (user.id === basket.userID) {
 
+        counter++;
+        basketIconNumber.textContent = counter.toString();
+        basketProductsNumber.textContent = counter.toString();
+        for (const product of products) {
+          if (product.id === basket.productID) {
+            let productDiv = document.createElement("div");
+            productDiv.innerHTML = `
+                   <div class="basket-product-left">
+                      <input type="checkbox" class="basket-product-checkbox">
+                      <img src="${product.img}" alt="">
+                      <div class="basket-product-text">
+                         <h3>${product.name}</h3>
+                         <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
+                      </div>
+                   </div>
+                   <div class="basket-product-counter">
+                      <span class="decrement">-</span>
+                      <span> 1 </span>
+                      <span class="increment">+</span>
+                   </div>
+                   <div class="basket-product-right">
+                      <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
+                      <p><span class="basket-product-price">${product.price}</span> so'm</p>
+                   </div>
+        `;
+            productDiv.className = "basket-product";
+            basketBox.appendChild(productDiv);
+          }
+        }
+
+
+      }
+    }
+  });
+}
+
+showBaskets();
 let currentId;
 
 editProductBtn.addEventListener("click", async () => {
@@ -333,14 +485,10 @@ editProductBtn.addEventListener("click", async () => {
             console.error("Error editing user:", error.message);
           }
         });
-
-
       }
-
     }
     productsNumber.textContent = counter.toString();
-  })
-
+  });
 });
 
 editProductForm.addEventListener("submit", async (event) => {
@@ -348,7 +496,6 @@ editProductForm.addEventListener("submit", async (event) => {
   getProduct().then(async (products) => {
     for (const product of products) {
       if (product.id === currentId) {
-
         let img = editProductForm.img.value;
         let name = editProductForm.productname.value;
         let price = editProductForm.price.value;
@@ -362,13 +509,16 @@ editProductForm.addEventListener("submit", async (event) => {
           basket: false,
         };
         try {
-          const res = await fetch(`http://localhost:2020/api/products/${product.id}`, {
-            method: "PUT",
-            body: JSON.stringify(updatedProduct),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const res = await fetch(
+            `http://localhost:2020/api/products/${product.id}`,
+            {
+              method: "PUT",
+              body: JSON.stringify(updatedProduct),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           let user = await getUser();
           let userID = user.id;
@@ -377,11 +527,9 @@ editProductForm.addEventListener("submit", async (event) => {
         } catch (error: any) {
           console.error("Error updating product:", error.message);
         }
-
       }
     }
   });
-
 });
 
 deleteProductBtn.addEventListener("click", async (e) => {

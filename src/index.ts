@@ -134,7 +134,7 @@ registerForm.addEventListener("submit", async (e: Event) => {
     const res1 = await fetch(`${baseURL}`);
     const { data: users } = await res1.json();
     const shopnames = users.map((user: { shopname: string; }) => user.shopname);
-    const phones = users.map((user: { phone: number; }) => user.phone);
+    const phones = users.map((user: { phone: string; }) => user.phone);
     const emails = users.map((user: { email: string; }) => user.email);
 
     if (shopnames.includes(mockUser.shopname)) {

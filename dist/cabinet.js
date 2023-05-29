@@ -35,10 +35,12 @@ const productsNumber = document.querySelector(".products-number");
 const editProductForm = document.querySelector(".edit-product-form");
 const editProductOverlay = document.querySelector(".edit-product-overlay");
 const closeEditProductForm = document.querySelector(".close-edit-product-form");
-const deleteProductBtn = document.querySelector('.delete-product');
-const basketBtn = document.querySelector('.basket');
+const deleteProductBtn = document.querySelector(".delete-product");
+const basketBtn = document.querySelector(".basket");
 const basketOverlay = document.querySelector(".basket-overlay");
-const closeBasket = document.querySelector('.close-basket');
+const closeBasket = document.querySelector(".close-basket");
+const basketProductsNumber = document.querySelector(".basket-products-number");
+const basketIconNumber = document.querySelector(".basket-icon-number");
 const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     let href = location.search;
     if (href !== "") {
@@ -54,6 +56,12 @@ const getProduct = () => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield reponse.json();
     return data.data;
 });
+const getBaskets = () => __awaiter(void 0, void 0, void 0, function* () {
+    const reponse = yield fetch(`http://localhost:3030/api/baskets/`);
+    const data = yield reponse.json();
+    return data.data;
+});
+// getProduct()
 // =========================== Profile Setting Start =========================
 getUser()
     .then((user) => {
@@ -77,7 +85,7 @@ window.addEventListener("click", (event) => {
 });
 addProduct.addEventListener("click", () => addProductOverlay.classList.add("show"));
 closeAddForm.addEventListener("click", () => addProductOverlay.classList.remove("show"));
-logOut.addEventListener("click", () => window.location.href = "/");
+logOut.addEventListener("click", () => (window.location.href = "/"));
 closeEditProducts.addEventListener("click", () => editProductsOverlay.classList.remove("show"));
 closeEditProductForm.addEventListener("click", () => editProductOverlay.classList.remove("show"));
 basketBtn.addEventListener("click", () => basketOverlay.classList.add("show"));
@@ -88,7 +96,7 @@ editProfile.addEventListener("click", () => __awaiter(void 0, void 0, void 0, fu
     editProfileOverlay.classList.add("show");
     try {
         const user = yield getUser();
-        const { shopname, firstname, lastname, phone, date, email, password, avatar } = user;
+        const { shopname, firstname, lastname, phone, date, email, password, avatar, } = user;
         editForm.shopname.value = shopname;
         editForm.firstname.value = firstname;
         editForm.lastname.value = lastname;
@@ -153,7 +161,14 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
     const basket = false;
     try {
         const user = yield getUser();
-        const mockProduct = { img, shopname: user.shopname, name, price, description, basket };
+        const mockProduct = {
+            img,
+            shopname: user.shopname,
+            name,
+            price,
+            description,
+            basket,
+        };
         // const res = await fetch(`http://localhost:2020/api/products`);
         const res = yield fetch(`http://localhost:2020/api/products`, {
             method: "POST",
@@ -178,7 +193,7 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
         productImage.src = data.img;
         productH2.textContent = data.name;
         productSpan.textContent = data.price + " " + "so'm";
-        basketBtn.className = 'add-basket-product';
+        basketBtn.className = "add-basket-product";
         basketBtn.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
         imgBox.append(productImage);
         productContent.append(productH2, productSpan, basketBtn);
@@ -198,10 +213,6 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
            <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
         </div>`;
         });
-        // addProductForm.img.value = "";
-        // addProductForm.productname.value = "";
-        // addProductForm.price.value = "";
-        // addProductForm.description.value = "";
         addProductForm.reset();
     }
     catch (error) {
@@ -210,6 +221,7 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
 }));
 // =========================== Add Prodcut End =========================
 // =========================== Show Prodcuts Start =========================
+let currentBasketId;
 getProduct()
     .then((products) => {
     for (const product of products) {
@@ -227,7 +239,8 @@ getProduct()
         productImage.src = product.img;
         productH2.textContent = product.name;
         productSpan.textContent = product.price + "  " + "so'm";
-        basket.className = 'add-basket-product';
+        basket.className = "add-basket-product";
+        basket.setAttribute("data-id", `${product.id}`);
         basket.innerHTML = `<i class="fa-solid fa-cart-plus" style="color: #000000;"></i>`;
         imgBox.append(productImage);
         productContent.append(productH2, productSpan, basket);
@@ -236,9 +249,6 @@ getProduct()
         productDiv.addEventListener("click", () => {
             let id = productDiv.getAttribute("data-id");
             if (id !== null) {
-                console.log("ID", id);
-                console.log("Name", product.name);
-                console.log("Name", product.price);
                 aboutProductOverlay.classList.add("show");
                 aboutProduct.innerHTML = `<div class="about-product-img">
           <img src="${product.img}" alt="">
@@ -252,6 +262,56 @@ getProduct()
          </div>`;
             }
         });
+        // basket.addEventListener("click", async (e) => {
+        //   let baskets = await getBaskets();
+        //   let id = basket.getAttribute("data-id");
+        //   currentBasketId = id;
+        //   let currentUser = await getUser();
+        //   let userID = currentUser.id;
+        //   let productID = id;
+        //   let newBasket = {
+        //     userID,
+        //     productID,
+        //   };
+        //   const res = await fetch(`http://localhost:3030/api/baskets`, {
+        //     method: "POST",
+        //     body: JSON.stringify(newBasket),
+        //     headers: {
+        //       "content-type": "application/json",
+        //     },
+        //   });
+        //   // addProductOverlay.classList.remove("show");
+        //   const { data } = await res.json();
+        //   console.log("User id", data.userID);
+        //   console.log("Product id", data.productID);
+        //   console.log("Product name", product.name);
+        // });
+        basket.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
+            let id = basket.getAttribute("data-id");
+            currentBasketId = id;
+            const currentUser = yield getUser();
+            const userID = currentUser.id;
+            const productID = id;
+            const baskets = yield getBaskets();
+            const existingBasket = baskets.find(basket => basket.productID === productID && basket.userID === userID);
+            if (existingBasket) {
+                alert('This product is already in your basket.');
+            }
+            else {
+                const newBasket = { userID, productID };
+                const res = yield fetch(`http://localhost:3030/api/baskets`, {
+                    method: "POST",
+                    body: JSON.stringify(newBasket),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const { data } = yield res.json();
+                console.log("User id", data.userID);
+                console.log("Product id", data.productID);
+                console.log("Product name", product.name);
+            }
+        }));
     }
 })
     .catch((error) => {
@@ -259,6 +319,50 @@ getProduct()
 });
 closeAboutProduct.addEventListener("click", () => aboutProductOverlay.classList.remove("show"));
 // =========================== Show Prodcuts End =========================
+let basketBox = document.querySelector(".basket-box");
+function showBaskets() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let user = yield getUser();
+        let products = yield getProduct();
+        getBaskets().then((baskets) => {
+            let counter = 0;
+            for (const basket of baskets) {
+                if (user.id === basket.userID) {
+                    counter++;
+                    basketIconNumber.textContent = counter.toString();
+                    basketProductsNumber.textContent = counter.toString();
+                    for (const product of products) {
+                        if (product.id === basket.productID) {
+                            let productDiv = document.createElement("div");
+                            productDiv.innerHTML = `
+                   <div class="basket-product-left">
+                      <input type="checkbox" class="basket-product-checkbox">
+                      <img src="${product.img}" alt="">
+                      <div class="basket-product-text">
+                         <h3>${product.name}</h3>
+                         <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
+                      </div>
+                   </div>
+                   <div class="basket-product-counter">
+                      <span class="decrement">-</span>
+                      <span> 1 </span>
+                      <span class="increment">+</span>
+                   </div>
+                   <div class="basket-product-right">
+                      <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
+                      <p><span class="basket-product-price">${product.price}</span> so'm</p>
+                   </div>
+        `;
+                            productDiv.className = "basket-product";
+                            basketBox.appendChild(productDiv);
+                        }
+                    }
+                }
+            }
+        });
+    });
+}
+showBaskets();
 let currentId;
 editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     while (aditProductsBox.children.length > 0) {
