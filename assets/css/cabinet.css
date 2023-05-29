@@ -184,7 +184,96 @@ header {
 .edit-profile-overlay.show,
 .edit-products-overlay.show,
 .basket-overlay.show {
-   display: flex;
+  display: flex;
+}
+
+.basket-overlay{
+  background-color: rgb(234, 234, 234);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  display: none;
+  gap: 20px;
+}
+
+.basket-box{
+  width: 100%;
+  display: flex;
+  height: calc(100vh - 70px);
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 80px;
+}
+
+.basket-product{
+  display: flex;
+  width: 98%;
+  height: 180px;
+  padding: 15px 30px;
+  justify-content: space-between;
+  align-items: center ;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.basket-product-left{
+  display: flex;
+}
+
+.basket-product-checkbox{
+  width: 20px;
+  cursor: pointer;
+}
+
+.basket-product-left img{
+  width: 140px;
+  height: 160px;
+  margin: 0 20px;
+  object-fit: cover;
+}
+
+.basket-product-counter{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border: #969696 0.5px solid;
+  border-radius: 5px;
+  width: 120px;
+  height: 45px;
+}
+
+.basket-product-counter .decrement,
+.basket-product-counter .increment{
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.basket-product-text,
+.basket-product-right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.basket-product-right{
+  gap: 50px;
+  font-size: 18px;
+}
+
+.basket-product-delete{
+  color: red;
+  cursor: pointer;
+}
+
+.basket-product-shopname,
+.basket-product-price{
+  font-size: 23px;
+}
+
+.basket-product-text h3{
+  font-size: 25px;
 }
 
 .edit-profile-overlay i,
@@ -409,6 +498,10 @@ header {
    cursor: pointer;
 }
 
+.close-basket{
+  top: 0;
+}
+
 .about-product {
    width: 900px;
    height: 500px;
@@ -479,9 +572,10 @@ header {
    top: 5px;
 }
 
-.edit-products-box-nav {
+.edit-products-box-nav,
+.basket-box-nav {
    width: 100%;
-   height: 60px;
+   height: 70px;
    display: flex;
    justify-content: center;
    align-items: center;
@@ -489,6 +583,9 @@ header {
    font-size: 20px;
    background-color: #fff;
    border-bottom: 1px solid #1111114e;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .edit-product-overlay {

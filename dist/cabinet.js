@@ -154,6 +154,7 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
     try {
         const user = yield getUser();
         const mockProduct = { img, shopname: user.shopname, name, price, description, basket };
+        // const res = await fetch(`http://localhost:2020/api/products`);
         const res = yield fetch(`http://localhost:2020/api/products`, {
             method: "POST",
             body: JSON.stringify(mockProduct),
@@ -290,10 +291,7 @@ editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0,
                 aditProductsBox.appendChild(productDiv);
                 productDiv.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
                     editProductOverlay.classList.add("show");
-                    console.log("Clicked");
                     currentId = productDiv.getAttribute("data-id");
-                    console.log(currentId);
-                    console.log(typeof currentId);
                     deleteProductBtn.setAttribute("data-id", currentId);
                     try {
                         const { img, name, price, description } = product;
