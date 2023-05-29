@@ -265,7 +265,6 @@ editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0,
         let counter = 0;
         for (const product of products) {
             if (product.shopname === userShopname) {
-                // list.push(product);
                 counter++;
                 let productDiv = document.createElement("div");
                 let imgBox = document.createElement("div");
@@ -273,7 +272,6 @@ editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0,
                 let productImage = document.createElement("img");
                 let productH2 = document.createElement("h2");
                 let productSpan = document.createElement("span");
-                // let deleteBtn = document.createElement("div");
                 productDiv.className = "product";
                 productDiv.setAttribute("data-id", `${product.id}`);
                 imgBox.className = "img-box";
@@ -281,8 +279,6 @@ editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0,
                 productImage.src = product.img;
                 productH2.textContent = product.name;
                 productSpan.textContent = product.price + "  " + "so'm";
-                // deleteBtn.className = 'delete-product';
-                // deleteBtn.innerHTML = `<i class="fa-solid fa-trash" style="color: #ff0000;"></i>`;
                 imgBox.append(productImage);
                 productContent.append(productH2, productSpan);
                 productDiv.append(imgBox, productContent);
@@ -295,13 +291,6 @@ editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0,
                     console.log(typeof currentId);
                     deleteProductBtn.setAttribute("data-id", currentId);
                     try {
-                        // const deleteBtn = document.createElement('div');
-                        // deleteBtn.className = "delete-product";
-                        // deleteBtn.innerHTML = "Delete this product";
-                        // editProductOverlay.appendChild(deleteBtn);
-                        // deleteBtn.addEventListener("click", () => {
-                        //   console.log(currentId);
-                        // })
                         const { img, name, price, description } = product;
                         editProductForm.img.value = img;
                         editProductForm.productname.value = name;
