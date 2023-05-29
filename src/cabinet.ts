@@ -26,6 +26,11 @@ const editProductForm = document.querySelector<HTMLFormElement>(".edit-product-f
 const editProductOverlay = document.querySelector<HTMLDivElement>(".edit-product-overlay")!;
 const closeEditProductForm = document.querySelector<HTMLDivElement>(".close-edit-product-form")!;
 const deleteProductBtn = document.querySelector<HTMLButtonElement>('.delete-product')!;
+const basketBtn = document.querySelector<HTMLDivElement>('.basket')!;
+const basketOverlay = document.querySelector<HTMLDivElement>(".basket-overlay")!;
+const closeBasket = document.querySelector<HTMLDivElement>('.close-basket')!;
+
+
 const getUser = async () => {
   let href = location.search;
   if (href !== "") {
@@ -70,6 +75,8 @@ closeAddForm.addEventListener("click", () => addProductOverlay.classList.remove(
 logOut.addEventListener("click", () => window.location.href = "/");
 closeEditProducts.addEventListener("click", () => editProductsOverlay.classList.remove("show"));
 closeEditProductForm.addEventListener("click", () => editProductOverlay.classList.remove("show"));
+basketBtn.addEventListener("click", () => basketOverlay.classList.add("show"));
+closeBasket.addEventListener("click", () => basketOverlay.classList.remove("show"));
 
 // =========================== Profile Setting End =========================
 
@@ -159,6 +166,8 @@ addProductForm.addEventListener("submit", async (e) => {
   try {
     const user = await getUser();
     const mockProduct = { img, shopname: user.shopname, name, price, description, basket };
+    // const res = await fetch(`http://localhost:2020/api/products`);
+
     const res = await fetch(`http://localhost:2020/api/products`, {
       method: "POST",
       body: JSON.stringify(mockProduct),
@@ -311,10 +320,7 @@ editProductBtn.addEventListener("click", async () => {
 
         productDiv.addEventListener("click", async (e) => {
           editProductOverlay.classList.add("show");
-          console.log("Clicked");
           currentId = productDiv.getAttribute("data-id");
-          console.log(currentId);
-          console.log(typeof currentId);
           deleteProductBtn.setAttribute("data-id", currentId);
 
           try {
@@ -377,6 +383,7 @@ editProductForm.addEventListener("submit", async (event) => {
   });
 
 });
+
 deleteProductBtn.addEventListener("click", async (e) => {
   let id = deleteProductBtn.getAttribute("data-id")!;
   console.log(id);

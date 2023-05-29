@@ -161,7 +161,8 @@ header {
 }
 
 .edit-profile-overlay,
-.edit-products-overlay {
+.edit-products-overlay,
+.basket-overlay {
    width: 100%;
    height: 100vh;
    position: absolute;
@@ -181,7 +182,8 @@ header {
 }
 
 .edit-profile-overlay.show,
-.edit-products-overlay.show {
+.edit-products-overlay.show,
+.basket-overlay.show {
    display: flex;
 }
 
@@ -398,7 +400,8 @@ header {
 .close-about-product,
 .close-edit-products,
 .close-edit-form,
-.close-edit-product-form {
+.close-edit-product-form,
+.close-basket {
    font-size: 40px;
    position: absolute;
    top: 20px;
@@ -468,6 +471,7 @@ header {
 .edit-products-overlay {
    display: flex;
    flex-direction: column;
+   padding-bottom: 30px;
    display: none;
 }
 

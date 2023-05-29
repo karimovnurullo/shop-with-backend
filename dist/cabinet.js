@@ -36,6 +36,9 @@ const editProductForm = document.querySelector(".edit-product-form");
 const editProductOverlay = document.querySelector(".edit-product-overlay");
 const closeEditProductForm = document.querySelector(".close-edit-product-form");
 const deleteProductBtn = document.querySelector('.delete-product');
+const basketBtn = document.querySelector('.basket');
+const basketOverlay = document.querySelector(".basket-overlay");
+const closeBasket = document.querySelector('.close-basket');
 const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     let href = location.search;
     if (href !== "") {
@@ -77,6 +80,8 @@ closeAddForm.addEventListener("click", () => addProductOverlay.classList.remove(
 logOut.addEventListener("click", () => window.location.href = "/");
 closeEditProducts.addEventListener("click", () => editProductsOverlay.classList.remove("show"));
 closeEditProductForm.addEventListener("click", () => editProductOverlay.classList.remove("show"));
+basketBtn.addEventListener("click", () => basketOverlay.classList.add("show"));
+closeBasket.addEventListener("click", () => basketOverlay.classList.remove("show"));
 // =========================== Profile Setting End =========================
 // =========================== Edit Profile Start =========================
 editProfile.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
