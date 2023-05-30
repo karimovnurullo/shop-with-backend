@@ -266,7 +266,6 @@ getProduct()
         });
         basket.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
             console.log("Cicked");
-            showBaskets();
             let id = basket.getAttribute("data-id");
             currentBasketId = id;
             const currentUser = yield getUser();
@@ -278,7 +277,8 @@ getProduct()
                 alert("This product is already in your basket.");
             }
             else {
-                basketIconNumber.textContent += (1).toString();
+                showBaskets();
+                basketIconNumber.textContent += (+1).toString();
                 const newBasket = { userID, productID };
                 const res = yield fetch(`${BASKETS_API}`, {
                     method: "POST",
