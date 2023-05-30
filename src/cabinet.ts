@@ -462,7 +462,7 @@ async function showBaskets() {
             <span class="increment">+</span>
           </div>
           <div class="basket-product-right">
-            <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
+            <p class="basket-product-delete" onclick="deleteBasketItem(this)" data-id="${product.id}"><i class="fa-solid fa-trash-can"></i> Delete</p>
             <p><span class="basket-product-price">${product.price}</span> so'm</p>
           </div>`;
 
@@ -490,6 +490,69 @@ async function showBaskets() {
 }
 
 showBaskets();
+async function deleteBasketItem(el: any) {
+  let id = el.getAttribute("data-id");
+  let res = await fetch(`${PRODUCTS_API}${id}`);
+  let { data } = await res.json();
+  let name = data.name;
+  console.log("This id", name);
+  let baskets = await getBaskets();
+
+  // try {
+  //   for (const basket of baskets) {
+  //     if (basket.productID === id) {
+  //       let baketid = basket.id;
+  //       let confirm = 
+  //       const response = await fetch(`${BASKETS_API}${baketid}`, {
+  //         method: "DELETE",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
+  //       // alert(`${name} successfully deleted`);
+  //     }
+  //   }
+  //   showBaskets();
+
+  // } catch (error: any) {
+  //   console.error(error.message);
+
+  // }
+  for (const basket of baskets) {
+    if (basket.productID === id) {
+      let basketId = basket.id;
+      // let message = `Are you sure you want to delete ?`;
+      let confirmMessage = confirm("Are you sure you want to delete");
+      if (confirmMessage) {
+        try {
+          const response = await fetch(`${BASKETS_API}${basketId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+          showBaskets();
+
+        } catch (error) {
+          console.error(`An error occurred while deleting basket with ID ${basketId}:`, error);
+        }
+      }
+    }
+  }
+
+}
+
+// getBaskets().then((baskets) => {
+
+// })
+
+document.querySelectorAll<HTMLDivElement>(".basket-product-delete").forEach((item) => {
+  item.addEventListener("click", () => {
+    let id = item.getAttribute("data-id");
+    console.log("Item id: " + id);
+    console.log("sas");
+  })
+});
 
 async function showTotalMoney() {
   const basktes = await getBaskets();
