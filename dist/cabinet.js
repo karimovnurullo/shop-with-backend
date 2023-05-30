@@ -44,6 +44,7 @@ const basketOverlay = document.querySelector(".basket-overlay");
 const closeBasket = document.querySelector(".close-basket");
 const basketProductsNumber = document.querySelector(".basket-products-number");
 const basketIconNumber = document.querySelector(".basket-icon-number");
+const totalMoney = document.querySelector(".total-money");
 const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     let href = location.search;
     if (href !== "") {
@@ -347,7 +348,7 @@ let basketBox = document.querySelector(".basket-box");
 function showBaskets() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let lengthArray = [];
+            let moneys = [];
             const user = yield getUser();
             const baskets = yield getBaskets();
             // Get all products once and filter them later
@@ -385,6 +386,18 @@ function showBaskets() {
           </div>`;
                     productDiv.className = "basket-product";
                     basketBox.appendChild(productDiv);
+                    const priceWithoutSpaces = product.price.replace(/\s/g, ''); // remove spaces from string
+                    const priceValue = parseFloat(priceWithoutSpaces); // convert string to number
+                    if (!isNaN(priceValue)) {
+                        moneys.push(priceValue);
+                    }
+                    console.log(moneys);
+                    let count = 0;
+                    for (const money of moneys) {
+                        count += money;
+                    }
+                    console.log("Total: " + count);
+                    totalMoney.textContent = count.toLocaleString();
                 }
             }
         }
@@ -394,6 +407,12 @@ function showBaskets() {
     });
 }
 showBaskets();
+function showTotalMoney() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const basktes = yield getBaskets();
+    });
+}
+showTotalMoney();
 let currentId;
 editProductBtn.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
     while (aditProductsBox.children.length > 0) {

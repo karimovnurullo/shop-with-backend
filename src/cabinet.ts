@@ -62,6 +62,9 @@ const basketProductsNumber = document.querySelector<HTMLDivElement>(
 const basketIconNumber = document.querySelector<HTMLDivElement>(
   ".basket-icon-number"
 )!;
+const totalMoney = document.querySelector<HTMLDivElement>(
+  ".total-money"
+)!;
 
 const getUser = async () => {
   let href = location.search;
@@ -418,7 +421,7 @@ let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
 
 async function showBaskets() {
   try {
-    let lengthArray = [];
+    let moneys: number[] = [];
     const user = await getUser();
     const baskets = await getBaskets();
 
@@ -465,6 +468,20 @@ async function showBaskets() {
 
         productDiv.className = "basket-product";
         basketBox.appendChild(productDiv);
+
+        const priceWithoutSpaces = product.price.replace(/\s/g, ''); // remove spaces from string
+        const priceValue = parseFloat(priceWithoutSpaces); // convert string to number
+
+        if (!isNaN(priceValue)) {
+          moneys.push(priceValue);
+        }
+        console.log(moneys);
+        let count = 0;
+        for (const money of moneys) {
+          count += money;
+        }
+        console.log("Total: " + count);
+        totalMoney.textContent = count.toLocaleString();
       }
     }
   } catch (error) {
@@ -473,6 +490,13 @@ async function showBaskets() {
 }
 
 showBaskets();
+
+async function showTotalMoney() {
+  const basktes = await getBaskets();
+
+}
+showTotalMoney();
+
 let currentId;
 
 editProductBtn.addEventListener("click", async () => {
