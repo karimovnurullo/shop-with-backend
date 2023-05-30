@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const USERS_API = "http://localhost:1010/api/users/";
-const PRODUCTS_API = "http://localhost:2020/api/products/";
-const BASKETS_API = "http://localhost:3030/api/baskets/";
+const USERS_API = "http://10.10.2.141:1010/api/users/";
+const PRODUCTS_API = "http://10.10.2.141:2020/api/products/";
+const BASKETS_API = "http://10.10.2.141:3030/api/baskets/";
 const profile = document.querySelector(".profile");
 const profileName = document.querySelector(".profile-name");
 const shopname = document.querySelector(".shopname");
@@ -265,15 +265,16 @@ getProduct()
             }
         });
         basket.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
+            console.log("Cicked");
             let id = basket.getAttribute("data-id");
             currentBasketId = id;
             const currentUser = yield getUser();
             const userID = currentUser.id;
             const productID = id;
             const baskets = yield getBaskets();
-            const existingBasket = baskets.find(basket => basket.productID === productID && basket.userID === userID);
+            const existingBasket = baskets.find((basket) => basket.productID === productID && basket.userID === userID);
             if (existingBasket) {
-                alert('This product is already in your basket.');
+                alert("This product is already in your basket.");
             }
             else {
                 const newBasket = { userID, productID };
@@ -285,10 +286,11 @@ getProduct()
                     },
                 });
                 const { data } = yield res.json();
-                console.log("User id", data.userID);
-                console.log("Product id", data.productID);
-                console.log("Product name", product.name);
+                // console.log("User id", data.userID);
+                // console.log("Product id", data.productID);
+                // console.log("Product name", product.name);
             }
+            basketIconNumber.textContent = baskets.length.toString();
         }));
     }
 })

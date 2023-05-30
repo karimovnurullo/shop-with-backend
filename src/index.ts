@@ -9,7 +9,7 @@ const switchLoginFormBtn =
   document.querySelector<HTMLDivElement>(".login-btn")!;
 const switchRegisterFormBtn =
   document.querySelector<HTMLDivElement>(".create-btn")!;
-const baseURL = USERS_API;
+const baseURL = "http://10.10.2.141:1010/api/users";
 
 function switchForm(hide: any, show: any) {
   hide.classList.add("hide");
@@ -87,7 +87,7 @@ updateUserBtn?.addEventListener("click", async (e) => {
   );
 });
 
-addUserBtn?.addEventListener("click", () => { });
+addUserBtn?.addEventListener("click", () => {});
 
 async function universal(
   btn: HTMLButtonElement,
@@ -133,26 +133,30 @@ registerForm.addEventListener("submit", async (e: Event) => {
   try {
     const res1 = await fetch(`${baseURL}`);
     const { data: users } = await res1.json();
-    const shopnames = users.map((user: { shopname: string; }) => user.shopname);
-    const phones = users.map((user: { phone: string; }) => user.phone);
-    const emails = users.map((user: { email: string; }) => user.email);
+    const shopnames = users.map((user: { shopname: string }) => user.shopname);
+    const phones = users.map((user: { phone: string }) => user.phone);
+    const emails = users.map((user: { email: string }) => user.email);
 
     if (shopnames.includes(mockUser.shopname)) {
-      alertFunction("A user with this shop name already exists. Please choose a different one.", false);
-    }
-    else if (mockUser.shopname.includes(" ")) {
+      alertFunction(
+        "A user with this shop name already exists. Please choose a different one.",
+        false
+      );
+    } else if (mockUser.shopname.includes(" ")) {
       alertFunction("Shopname orasida bo'shliq bo'lmasin", false);
-    }
-    else if (phones.includes(mockUser.phone)) {
-      alertFunction("A user with this phone number already exists. Please choose a different one.", false);
-    }
-    else if (emails.includes(mockUser.email)) {
-      alertFunction("A user with this email already exists. Please choose a different one.", false);
-    }
-    else if (password !== confirmPassword) {
+    } else if (phones.includes(mockUser.phone)) {
+      alertFunction(
+        "A user with this phone number already exists. Please choose a different one.",
+        false
+      );
+    } else if (emails.includes(mockUser.email)) {
+      alertFunction(
+        "A user with this email already exists. Please choose a different one.",
+        false
+      );
+    } else if (password !== confirmPassword) {
       alertFunction("Confirm password incorrect", false);
-    }
-    else {
+    } else {
       try {
         const res = await fetch(`${baseURL}`, {
           method: "POST",
@@ -167,7 +171,6 @@ registerForm.addEventListener("submit", async (e: Event) => {
         alertFunction("Error submitting form", false);
       }
     }
-
   } catch (error: any) {
     alertFunction("Enter all inputs", false);
   }

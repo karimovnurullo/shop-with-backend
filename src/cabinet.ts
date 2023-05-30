@@ -1,6 +1,6 @@
-const USERS_API = "http://localhost:1010/api/users/";
-const PRODUCTS_API = "http://localhost:2020/api/products/";
-const BASKETS_API = "http://localhost:3030/api/baskets/";
+const USERS_API = "http://10.10.2.141:1010/api/users/";
+const PRODUCTS_API = "http://10.10.2.141:2020/api/products/";
+const BASKETS_API = "http://10.10.2.141:3030/api/baskets/";
 
 const profile = document.querySelector<HTMLHeadElement>(".profile")!;
 const profileName = document.querySelector<HTMLDivElement>(".profile-name")!;
@@ -62,7 +62,6 @@ const basketProductsNumber = document.querySelector<HTMLDivElement>(
 const basketIconNumber = document.querySelector<HTMLDivElement>(
   ".basket-icon-number"
 )!;
-
 
 const getUser = async () => {
   let href = location.search;
@@ -328,6 +327,8 @@ getProduct()
       });
 
       basket.addEventListener("click", async (e) => {
+        console.log("Cicked");
+
         let id = basket.getAttribute("data-id");
         currentBasketId = id;
 
@@ -335,10 +336,12 @@ getProduct()
         const userID = currentUser.id;
         const productID = id;
         const baskets = await getBaskets();
-        const existingBasket = baskets.find(basket => basket.productID === productID && basket.userID === userID);
+        const existingBasket = baskets.find(
+          (basket) => basket.productID === productID && basket.userID === userID
+        );
 
         if (existingBasket) {
-          alert('This product is already in your basket.');
+          alert("This product is already in your basket.");
         } else {
           const newBasket = { userID, productID };
           const res = await fetch(`${BASKETS_API}`, {
@@ -350,12 +353,12 @@ getProduct()
           });
 
           const { data } = await res.json();
-          console.log("User id", data.userID);
-          console.log("Product id", data.productID);
-          console.log("Product name", product.name);
+          // console.log("User id", data.userID);
+          // console.log("Product id", data.productID);
+          // console.log("Product name", product.name);
         }
+        basketIconNumber.textContent = baskets.length.toString();
       });
-
     }
   })
   .catch((error: any) => {
@@ -375,7 +378,6 @@ async function showBaskets() {
     let counter = 0;
     for (const basket of baskets) {
       if (user.id === basket.userID) {
-
         counter++;
         basketIconNumber.textContent = counter.toString();
         basketProductsNumber.textContent = counter.toString();
@@ -405,8 +407,6 @@ async function showBaskets() {
             basketBox.appendChild(productDiv);
           }
         }
-
-
       }
     }
   });
@@ -485,16 +485,13 @@ editProductForm.addEventListener("submit", async (event) => {
           basket: false,
         };
         try {
-          const res = await fetch(
-            `${PRODUCTS_API}${product.id}`,
-            {
-              method: "PUT",
-              body: JSON.stringify(updatedProduct),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const res = await fetch(`${PRODUCTS_API}${product.id}`, {
+            method: "PUT",
+            body: JSON.stringify(updatedProduct),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
           let user = await getUser();
           let userID = user.id;

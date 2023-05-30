@@ -15,7 +15,7 @@ const registerForm = document.querySelector(".sign-form");
 const loginForm = document.querySelector(".login-form");
 const switchLoginFormBtn = document.querySelector(".login-btn");
 const switchRegisterFormBtn = document.querySelector(".create-btn");
-const baseURL = USERS_API;
+const baseURL = "http://10.10.2.141:1010/api/users";
 function switchForm(hide, show) {
     hide.classList.add("hide");
     show.classList.remove("hide");
