@@ -371,49 +371,105 @@ closeAboutProduct.addEventListener("click", () =>
 // =========================== Show Prodcuts End =========================
 
 let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
-async function showBaskets() {
+// async function showBaskets() {
 
-  let user = await getUser();
-  let products = await getProduct();
-  getBaskets().then((baskets) => {
+//   let user = await getUser();
+//   let products = await getProduct();
+//   getBaskets().then((baskets) => {
+//     while (basketBox.children.length > 0) {
+//       basketBox.children[0].remove();
+//     }
+//     let counter = 0;
+//     for (const basket of baskets) {
+//       if (user.id === basket.userID) {
+//         counter++;
+//         basketIconNumber.textContent = counter.toString();
+//         basketProductsNumber.textContent = counter.toString();
+//         for (const product of products) {
+//           if (product.id === basket.productID) {
+//             let productDiv = document.createElement("div");
+//             productDiv.innerHTML = `
+//                    <div class="basket-product-left">
+//                       <input type="checkbox" class="basket-product-checkbox">
+//                       <img src="${product.img}" alt="">
+//                       <div class="basket-product-text">
+//                          <h3>${product.name}</h3>
+//                          <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
+//                       </div>
+//                    </div>
+//                    <div class="basket-product-counter">
+//                       <span class="decrement">-</span>
+//                       <span> 1 </span>
+//                       <span class="increment">+</span>
+//                    </div>
+//                    <div class="basket-product-right">
+//                       <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
+//                       <p><span class="basket-product-price">${product.price}</span> so'm</p>
+//                    </div>
+//         `;
+//             productDiv.className = "basket-product";
+//             basketBox.appendChild(productDiv);
+//           }
+//         }
+//       }
+//     }
+//   });
+// }
+
+async function showBaskets() {
+  try {
+    let lengthArray = [];
+    const user = await getUser();
+    const baskets = await getBaskets();
+
+    // Get all products once and filter them later
+    const products = await getProduct();
+
+    const userBaskets = baskets.filter(basket => basket.userID === user.id);
+    let basketCount = 0;
+
+
+
+    // Clear existing content before appending new items
     while (basketBox.children.length > 0) {
       basketBox.children[0].remove();
     }
-    let counter = 0;
-    for (const basket of baskets) {
-      if (user.id === basket.userID) {
-        counter++;
-        basketIconNumber.textContent = counter.toString();
-        basketProductsNumber.textContent = counter.toString();
-        for (const product of products) {
-          if (product.id === basket.productID) {
-            let productDiv = document.createElement("div");
-            productDiv.innerHTML = `
-                   <div class="basket-product-left">
-                      <input type="checkbox" class="basket-product-checkbox">
-                      <img src="${product.img}" alt="">
-                      <div class="basket-product-text">
-                         <h3>${product.name}</h3>
-                         <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
-                      </div>
-                   </div>
-                   <div class="basket-product-counter">
-                      <span class="decrement">-</span>
-                      <span> 1 </span>
-                      <span class="increment">+</span>
-                   </div>
-                   <div class="basket-product-right">
-                      <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
-                      <p><span class="basket-product-price">${product.price}</span> so'm</p>
-                   </div>
-        `;
-            productDiv.className = "basket-product";
-            basketBox.appendChild(productDiv);
-          }
-        }
+
+    // Loop through user's baskets and matching products
+    for (const basket of userBaskets) {
+      const product = products.find(product => product.id === basket.productID);
+
+      if (product) {
+
+        basketIconNumber.textContent = (++basketCount).toString();
+        basketProductsNumber.textContent = basketCount.toString();
+        let productDiv = document.createElement("div");
+        productDiv.innerHTML = `
+          <div class="basket-product-left">
+            <input type="checkbox" class="basket-product-checkbox">
+            <img src="${product.img}" alt="">
+            <div class="basket-product-text">
+              <h3>${product.name}</h3>
+              <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
+            </div>
+          </div>
+          <div class="basket-product-counter">
+            <span class="decrement">-</span>
+            <span> 1 </span>
+            <span class="increment">+</span>
+          </div>
+          <div class="basket-product-right">
+            <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
+            <p><span class="basket-product-price">${product.price}</span> so'm</p>
+          </div>`;
+
+        productDiv.className = "basket-product";
+        basketBox.appendChild(productDiv);
       }
     }
-  });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 }
 
 showBaskets();
