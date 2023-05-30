@@ -617,7 +617,7 @@ header {
   gap: 70px;
 }
 
-.basket-products-number,
+.basket-products-numbers,
 .basket-products-totalamount {
   display: flex;
   gap: 20px;
