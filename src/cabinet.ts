@@ -372,7 +372,6 @@ closeAboutProduct.addEventListener("click", () =>
 
 let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
 async function showBaskets() {
-
   let user = await getUser();
   let products = await getProduct();
   getBaskets().then((baskets) => {

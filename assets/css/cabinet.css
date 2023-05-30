@@ -614,6 +614,14 @@ header {
   position: fixed;
   top: 0;
   left: 0;
+  gap: 70px;
+}
+
+.basket-products-number,
+.basket-products-totalamount {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .edit-product-overlay {
