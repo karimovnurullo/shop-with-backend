@@ -343,7 +343,7 @@ getProduct()
         if (existingBasket) {
           alert("This product is already in your basket.");
         } else {
-          basketIconNumber.textContent = (+1).toString();
+          basketIconNumber.textContent += (1).toString();
           const newBasket = { userID, productID };
           const res = await fetch(`${BASKETS_API}`, {
             method: "POST",
