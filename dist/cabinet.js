@@ -266,6 +266,7 @@ getProduct()
         });
         basket.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
             console.log("Cicked");
+            showBaskets();
             let id = basket.getAttribute("data-id");
             currentBasketId = id;
             const currentUser = yield getUser();
@@ -277,6 +278,7 @@ getProduct()
                 alert("This product is already in your basket.");
             }
             else {
+                basketIconNumber.textContent = (+1).toString();
                 const newBasket = { userID, productID };
                 const res = yield fetch(`${BASKETS_API}`, {
                     method: "POST",
@@ -290,7 +292,6 @@ getProduct()
                 // console.log("Product id", data.productID);
                 // console.log("Product name", product.name);
             }
-            basketIconNumber.textContent = baskets.length.toString();
         }));
     }
 })
@@ -305,6 +306,9 @@ function showBaskets() {
         let user = yield getUser();
         let products = yield getProduct();
         getBaskets().then((baskets) => {
+            while (basketBox.children.length > 0) {
+                basketBox.children[0].remove();
+            }
             let counter = 0;
             for (const basket of baskets) {
                 if (user.id === basket.userID) {

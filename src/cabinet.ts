@@ -328,7 +328,7 @@ getProduct()
 
       basket.addEventListener("click", async (e) => {
         console.log("Cicked");
-
+        showBaskets();
         let id = basket.getAttribute("data-id");
         currentBasketId = id;
 
@@ -343,6 +343,7 @@ getProduct()
         if (existingBasket) {
           alert("This product is already in your basket.");
         } else {
+          basketIconNumber.textContent = (+1).toString();
           const newBasket = { userID, productID };
           const res = await fetch(`${BASKETS_API}`, {
             method: "POST",
@@ -357,7 +358,6 @@ getProduct()
           // console.log("Product id", data.productID);
           // console.log("Product name", product.name);
         }
-        basketIconNumber.textContent = baskets.length.toString();
       });
     }
   })
@@ -372,9 +372,13 @@ closeAboutProduct.addEventListener("click", () =>
 
 let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
 async function showBaskets() {
+
   let user = await getUser();
   let products = await getProduct();
   getBaskets().then((baskets) => {
+    while (basketBox.children.length > 0) {
+      basketBox.children[0].remove();
+    }
     let counter = 0;
     for (const basket of baskets) {
       if (user.id === basket.userID) {
