@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const USERS_API = "http://localhost:1010/api/users/";
+const PRODUCTS_API = "http://localhost:2020/api/products/";
+const BASKETS_API = "http://localhost:3030/api/baskets/";
 const profile = document.querySelector(".profile");
 const profileName = document.querySelector(".profile-name");
 const shopname = document.querySelector(".shopname");
@@ -46,18 +49,18 @@ const getUser = () => __awaiter(void 0, void 0, void 0, function* () {
     if (href !== "") {
         const params = new URLSearchParams(href);
         const id = params.get("id");
-        const reponse = yield fetch(`http://localhost:1010/api/users/${id}`);
+        const reponse = yield fetch(`${USERS_API}${id}`);
         const data = yield reponse.json();
         return data.data;
     }
 });
 const getProduct = () => __awaiter(void 0, void 0, void 0, function* () {
-    const reponse = yield fetch(`http://localhost:2020/api/products/`);
+    const reponse = yield fetch(`${PRODUCTS_API}`);
     const data = yield reponse.json();
     return data.data;
 });
 const getBaskets = () => __awaiter(void 0, void 0, void 0, function* () {
-    const reponse = yield fetch(`http://localhost:3030/api/baskets/`);
+    const reponse = yield fetch(`${BASKETS_API}`);
     const data = yield reponse.json();
     return data.data;
 });
@@ -132,7 +135,7 @@ editForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0,
     };
     try {
         getUser().then((user) => __awaiter(void 0, void 0, void 0, function* () {
-            const res = yield fetch(`http://localhost:1010/api/users/${user.id}`, {
+            const res = yield fetch(`${USERS_API}${user.id}`, {
                 method: "PUT",
                 body: JSON.stringify(updatedUser),
                 headers: {
@@ -169,8 +172,7 @@ addProductForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 
             description,
             basket,
         };
-        // const res = await fetch(`http://localhost:2020/api/products`);
-        const res = yield fetch(`http://localhost:2020/api/products`, {
+        const res = yield fetch(`${PRODUCTS_API}`, {
             method: "POST",
             body: JSON.stringify(mockProduct),
             headers: {
@@ -262,30 +264,6 @@ getProduct()
          </div>`;
             }
         });
-        // basket.addEventListener("click", async (e) => {
-        //   let baskets = await getBaskets();
-        //   let id = basket.getAttribute("data-id");
-        //   currentBasketId = id;
-        //   let currentUser = await getUser();
-        //   let userID = currentUser.id;
-        //   let productID = id;
-        //   let newBasket = {
-        //     userID,
-        //     productID,
-        //   };
-        //   const res = await fetch(`http://localhost:3030/api/baskets`, {
-        //     method: "POST",
-        //     body: JSON.stringify(newBasket),
-        //     headers: {
-        //       "content-type": "application/json",
-        //     },
-        //   });
-        //   // addProductOverlay.classList.remove("show");
-        //   const { data } = await res.json();
-        //   console.log("User id", data.userID);
-        //   console.log("Product id", data.productID);
-        //   console.log("Product name", product.name);
-        // });
         basket.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
             let id = basket.getAttribute("data-id");
             currentBasketId = id;
@@ -299,7 +277,7 @@ getProduct()
             }
             else {
                 const newBasket = { userID, productID };
-                const res = yield fetch(`http://localhost:3030/api/baskets`, {
+                const res = yield fetch(`${BASKETS_API}`, {
                     method: "POST",
                     body: JSON.stringify(newBasket),
                     headers: {
@@ -431,7 +409,7 @@ editProductForm.addEventListener("submit", (event) => __awaiter(void 0, void 0, 
                     basket: false,
                 };
                 try {
-                    const res = yield fetch(`http://localhost:2020/api/products/${product.id}`, {
+                    const res = yield fetch(`${PRODUCTS_API}${product.id}`, {
                         method: "PUT",
                         body: JSON.stringify(updatedProduct),
                         headers: {
@@ -454,7 +432,7 @@ deleteProductBtn.addEventListener("click", (e) => __awaiter(void 0, void 0, void
     let id = deleteProductBtn.getAttribute("data-id");
     console.log(id);
     try {
-        const res = yield fetch(`http://localhost:2020/api/products/${id}`, {
+        const res = yield fetch(`${PRODUCTS_API}${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

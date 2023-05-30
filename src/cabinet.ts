@@ -1,3 +1,7 @@
+const USERS_API = "http://localhost:1010/api/users/";
+const PRODUCTS_API = "http://localhost:2020/api/products/";
+const BASKETS_API = "http://localhost:3030/api/baskets/";
+
 const profile = document.querySelector<HTMLHeadElement>(".profile")!;
 const profileName = document.querySelector<HTMLDivElement>(".profile-name")!;
 const shopname = document.querySelector<HTMLDivElement>(".shopname")!;
@@ -65,19 +69,19 @@ const getUser = async () => {
   if (href !== "") {
     const params = new URLSearchParams(href);
     const id = params.get("id");
-    const reponse = await fetch(`http://localhost:1010/api/users/${id}`);
+    const reponse = await fetch(`${USERS_API}${id}`);
     const data = await reponse.json();
     return data.data;
   }
 };
 const getProduct = async () => {
-  const reponse = await fetch(`http://localhost:2020/api/products/`);
+  const reponse = await fetch(`${PRODUCTS_API}`);
   const data = await reponse.json();
   return data.data;
 };
 
 const getBaskets = async () => {
-  const reponse = await fetch(`http://localhost:3030/api/baskets/`);
+  const reponse = await fetch(`${BASKETS_API}`);
   const data = await reponse.json();
   return data.data;
 };
@@ -181,7 +185,7 @@ editForm.addEventListener("submit", async (event) => {
 
   try {
     getUser().then(async (user) => {
-      const res = await fetch(`http://localhost:1010/api/users/${user.id}`, {
+      const res = await fetch(`${USERS_API}${user.id}`, {
         method: "PUT",
         body: JSON.stringify(updatedUser),
         headers: {
@@ -224,9 +228,8 @@ addProductForm.addEventListener("submit", async (e) => {
       description,
       basket,
     };
-    // const res = await fetch(`http://localhost:2020/api/products`);
 
-    const res = await fetch(`http://localhost:2020/api/products`, {
+    const res = await fetch(`${PRODUCTS_API}`, {
       method: "POST",
       body: JSON.stringify(mockProduct),
       headers: {
@@ -323,33 +326,6 @@ getProduct()
          </div>`;
         }
       });
-      // basket.addEventListener("click", async (e) => {
-      //   let baskets = await getBaskets();
-      //   let id = basket.getAttribute("data-id");
-      //   currentBasketId = id;
-      //   let currentUser = await getUser();
-      //   let userID = currentUser.id;
-      //   let productID = id;
-      //   let newBasket = {
-      //     userID,
-      //     productID,
-      //   };
-
-
-      //   const res = await fetch(`http://localhost:3030/api/baskets`, {
-      //     method: "POST",
-      //     body: JSON.stringify(newBasket),
-      //     headers: {
-      //       "content-type": "application/json",
-      //     },
-      //   });
-      //   // addProductOverlay.classList.remove("show");
-
-      //   const { data } = await res.json();
-      //   console.log("User id", data.userID);
-      //   console.log("Product id", data.productID);
-      //   console.log("Product name", product.name);
-      // });
 
       basket.addEventListener("click", async (e) => {
         let id = basket.getAttribute("data-id");
@@ -365,7 +341,7 @@ getProduct()
           alert('This product is already in your basket.');
         } else {
           const newBasket = { userID, productID };
-          const res = await fetch(`http://localhost:3030/api/baskets`, {
+          const res = await fetch(`${BASKETS_API}`, {
             method: "POST",
             body: JSON.stringify(newBasket),
             headers: {
@@ -510,7 +486,7 @@ editProductForm.addEventListener("submit", async (event) => {
         };
         try {
           const res = await fetch(
-            `http://localhost:2020/api/products/${product.id}`,
+            `${PRODUCTS_API}${product.id}`,
             {
               method: "PUT",
               body: JSON.stringify(updatedProduct),
@@ -536,7 +512,7 @@ deleteProductBtn.addEventListener("click", async (e) => {
   let id = deleteProductBtn.getAttribute("data-id")!;
   console.log(id);
   try {
-    const res = await fetch(`http://localhost:2020/api/products/${id}`, {
+    const res = await fetch(`${PRODUCTS_API}${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
