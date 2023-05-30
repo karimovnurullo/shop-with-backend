@@ -616,9 +616,7 @@ header {
   left: 0;
   gap: 70px;
 }
-
-.basket-products-numbers,
-.basket-products-totalamount {
+.basket-box-nav div {
   display: flex;
   gap: 20px;
   align-items: center;
