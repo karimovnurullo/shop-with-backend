@@ -11,7 +11,7 @@ mainLoginBtn.addEventListener("click", () => {
 });
 
 const getMainProduct = async () => {
-   const reponse = await fetch(`http://localhost:2020/api/products/`);
+   const reponse = await fetch(`https://shopbackend-aaw0.onrender.com/api/products/`);
    const data = await reponse.json();
    return data.data;
 };
@@ -69,6 +69,7 @@ getMainProduct()
       console.error(error.message);
    });
 mainCloseAboutProduct.addEventListener("click", () => mainAboutProductOverlay.classList.remove("show"));
+
 
 // =========================== Show Prodcuts End =========================
 

@@ -1,6 +1,6 @@
-const USERS_API = "http://10.10.2.141:1010/api/users/";
-const PRODUCTS_API = "http://10.10.2.141:2020/api/products/";
-const BASKETS_API = "http://10.10.2.141:3030/api/baskets/";
+const USERS_API = "https://shopbackend-aaw0.onrender.com/api/users/";
+const PRODUCTS_API = "https://shopbackend-aaw0.onrender.com/api/products/";
+const BASKETS_API = "https://shopbackend-aaw0.onrender.com/api/baskets/";
 
 const profile = document.querySelector<HTMLHeadElement>(".profile")!;
 const profileName = document.querySelector<HTMLDivElement>(".profile-name")!;
@@ -357,9 +357,6 @@ getProduct()
           });
 
           const { data } = await res.json();
-          // console.log("User id", data.userID);
-          // console.log("Product id", data.productID);
-          // console.log("Product name", product.name);
         }
       });
     }
@@ -374,50 +371,6 @@ closeAboutProduct.addEventListener("click", () =>
 // =========================== Show Prodcuts End =========================
 
 let basketBox = document.querySelector<HTMLDivElement>(".basket-box")!;
-// async function showBaskets() {
-
-//   let user = await getUser();
-//   let products = await getProduct();
-//   getBaskets().then((baskets) => {
-//     while (basketBox.children.length > 0) {
-//       basketBox.children[0].remove();
-//     }
-//     let counter = 0;
-//     for (const basket of baskets) {
-//       if (user.id === basket.userID) {
-//         counter++;
-//         basketIconNumber.textContent = counter.toString();
-//         basketProductsNumber.textContent = counter.toString();
-//         for (const product of products) {
-//           if (product.id === basket.productID) {
-//             let productDiv = document.createElement("div");
-//             productDiv.innerHTML = `
-//                    <div class="basket-product-left">
-//                       <input type="checkbox" class="basket-product-checkbox">
-//                       <img src="${product.img}" alt="">
-//                       <div class="basket-product-text">
-//                          <h3>${product.name}</h3>
-//                          <p>brend: <span class="basket-product-shopname">${product.shopname}</span></p>
-//                       </div>
-//                    </div>
-//                    <div class="basket-product-counter">
-//                       <span class="decrement">-</span>
-//                       <span> 1 </span>
-//                       <span class="increment">+</span>
-//                    </div>
-//                    <div class="basket-product-right">
-//                       <p class="basket-product-delete"><i class="fa-solid fa-trash-can"></i> Delete</p>
-//                       <p><span class="basket-product-price">${product.price}</span> so'm</p>
-//                    </div>
-//         `;
-//             productDiv.className = "basket-product";
-//             basketBox.appendChild(productDiv);
-//           }
-//         }
-//       }
-//     }
-//   });
-// }
 
 async function showBaskets() {
   try {
@@ -425,20 +378,15 @@ async function showBaskets() {
     const user = await getUser();
     const baskets = await getBaskets();
 
-    // Get all products once and filter them later
     const products = await getProduct();
 
     const userBaskets = baskets.filter(basket => basket.userID === user.id);
     let basketCount = 0;
 
-
-
-    // Clear existing content before appending new items
     while (basketBox.children.length > 0) {
       basketBox.children[0].remove();
     }
 
-    // Loop through user's baskets and matching products
     for (const basket of userBaskets) {
       const product = products.find(product => product.id === basket.productID);
 
@@ -498,26 +446,7 @@ async function deleteBasketItem(el: any) {
   console.log("This id", name);
   let baskets = await getBaskets();
 
-  // try {
-  //   for (const basket of baskets) {
-  //     if (basket.productID === id) {
-  //       let baketid = basket.id;
-  //       let confirm = 
-  //       const response = await fetch(`${BASKETS_API}${baketid}`, {
-  //         method: "DELETE",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       });
-  //       // alert(`${name} successfully deleted`);
-  //     }
-  //   }
-  //   showBaskets();
 
-  // } catch (error: any) {
-  //   console.error(error.message);
-
-  // }
   for (const basket of baskets) {
     if (basket.productID === id) {
       let basketId = basket.id;
@@ -541,10 +470,6 @@ async function deleteBasketItem(el: any) {
   }
 
 }
-
-// getBaskets().then((baskets) => {
-
-// })
 
 document.querySelectorAll<HTMLDivElement>(".basket-product-delete").forEach((item) => {
   item.addEventListener("click", () => {

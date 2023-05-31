@@ -9,7 +9,7 @@ const switchLoginFormBtn =
   document.querySelector<HTMLDivElement>(".login-btn")!;
 const switchRegisterFormBtn =
   document.querySelector<HTMLDivElement>(".create-btn")!;
-const baseURL = "http://10.10.2.141:1010/api/users";
+const baseURL = "https://shopbackend-aaw0.onrender.com/api/users";
 
 function switchForm(hide: any, show: any) {
   hide.classList.add("hide");
@@ -52,61 +52,61 @@ const mockUser = {
   name: "nurullo",
 };
 
-getUsersBtn.addEventListener("click", async (e) => {
-  await universal(
-    e.target as HTMLButtonElement,
-    "Loading Users...",
-    async () => {
-      const res = await fetch(baseURL);
-      const { data } = await res.json();
-      await delay();
-      console.log("data = ", data);
-    }
-  );
-});
+// getUsersBtn.addEventListener("click", async (e) => {
+//   await universal(
+//     e.target as HTMLButtonElement,
+//     "Loading Users...",
+//     async () => {
+//       const res = await fetch(baseURL);
+//       const { data } = await res.json();
+//       await delay();
+//       console.log("data = ", data);
+//     }
+//   );
+// });
 
-updateUserBtn?.addEventListener("click", async (e) => {
-  await universal(
-    e.target as HTMLButtonElement,
-    "Loading Users...",
-    async () => {
-      const res = await fetch(
-        `${baseURL}/37659e08-e223-4109-bbc8-597b2dd0804b`,
-        {
-          method: "PUT",
-          body: JSON.stringify(mockUser),
-          headers: {
-            "content-type": "application/json",
-          },
-        }
-      );
-      const { data } = await res.json();
-      await delay();
-      console.log("data = ", data);
-    }
-  );
-});
+// updateUserBtn?.addEventListener("click", async (e) => {
+//   await universal(
+//     e.target as HTMLButtonElement,
+//     "Loading Users...",
+//     async () => {
+//       const res = await fetch(
+//         `${baseURL}/37659e08-e223-4109-bbc8-597b2dd0804b`,
+//         {
+//           method: "PUT",
+//           body: JSON.stringify(mockUser),
+//           headers: {
+//             "content-type": "application/json",
+//           },
+//         }
+//       );
+//       const { data } = await res.json();
+//       await delay();
+//       console.log("data = ", data);
+//     }
+//   );
+// });
 
-addUserBtn?.addEventListener("click", () => {});
+// addUserBtn?.addEventListener("click", () => {});
 
-async function universal(
-  btn: HTMLButtonElement,
-  loadingMsg: string,
-  fetchFn: () => Promise<any>
-) {
-  try {
-    const defaultText = btn.innerText;
-    btn.innerText = loadingMsg;
-    btn.disabled = true;
+// async function universal(
+//   btn: HTMLButtonElement,
+//   loadingMsg: string,
+//   fetchFn: () => Promise<any>
+// ) {
+//   try {
+//     const defaultText = btn.innerText;
+//     btn.innerText = loadingMsg;
+//     btn.disabled = true;
 
-    await fetchFn();
+//     await fetchFn();
 
-    btn.innerText = defaultText;
-    btn.disabled = false;
-  } catch (err: any) {
-    console.error(err);
-  }
-}
+//     btn.innerText = defaultText;
+//     btn.disabled = false;
+//   } catch (err: any) {
+//     console.error(err);
+//   }
+// }
 
 registerForm.addEventListener("submit", async (e: Event) => {
   e.preventDefault();

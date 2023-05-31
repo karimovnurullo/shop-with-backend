@@ -19,7 +19,7 @@ mainLoginBtn.addEventListener("click", () => {
     window.location.href = "register/";
 });
 const getMainProduct = () => __awaiter(void 0, void 0, void 0, function* () {
-    const reponse = yield fetch(`http://localhost:2020/api/products/`);
+    const reponse = yield fetch(`https://shopbackend-aaw0.onrender.com/api/products/`);
     const data = yield reponse.json();
     return data.data;
 });

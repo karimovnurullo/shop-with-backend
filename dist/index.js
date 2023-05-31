@@ -15,7 +15,7 @@ const registerForm = document.querySelector(".sign-form");
 const loginForm = document.querySelector(".login-form");
 const switchLoginFormBtn = document.querySelector(".login-btn");
 const switchRegisterFormBtn = document.querySelector(".create-btn");
-const baseURL = "http://10.10.2.141:1010/api/users";
+const baseURL = "https://shopbackend-aaw0.onrender.com/api/users";
 function switchForm(hide, show) {
     hide.classList.add("hide");
     show.classList.remove("hide");
@@ -48,44 +48,56 @@ const mockUser = {
     age: 10,
     name: "nurullo",
 };
-getUsersBtn.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
-    yield universal(e.target, "Loading Users...", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield fetch(baseURL);
-        const { data } = yield res.json();
-        yield delay();
-        console.log("data = ", data);
-    }));
-}));
-updateUserBtn === null || updateUserBtn === void 0 ? void 0 : updateUserBtn.addEventListener("click", (e) => __awaiter(void 0, void 0, void 0, function* () {
-    yield universal(e.target, "Loading Users...", () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield fetch(`${baseURL}/37659e08-e223-4109-bbc8-597b2dd0804b`, {
-            method: "PUT",
-            body: JSON.stringify(mockUser),
-            headers: {
-                "content-type": "application/json",
-            },
-        });
-        const { data } = yield res.json();
-        yield delay();
-        console.log("data = ", data);
-    }));
-}));
-addUserBtn === null || addUserBtn === void 0 ? void 0 : addUserBtn.addEventListener("click", () => { });
-function universal(btn, loadingMsg, fetchFn) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const defaultText = btn.innerText;
-            btn.innerText = loadingMsg;
-            btn.disabled = true;
-            yield fetchFn();
-            btn.innerText = defaultText;
-            btn.disabled = false;
-        }
-        catch (err) {
-            console.error(err);
-        }
-    });
-}
+// getUsersBtn.addEventListener("click", async (e) => {
+//   await universal(
+//     e.target as HTMLButtonElement,
+//     "Loading Users...",
+//     async () => {
+//       const res = await fetch(baseURL);
+//       const { data } = await res.json();
+//       await delay();
+//       console.log("data = ", data);
+//     }
+//   );
+// });
+// updateUserBtn?.addEventListener("click", async (e) => {
+//   await universal(
+//     e.target as HTMLButtonElement,
+//     "Loading Users...",
+//     async () => {
+//       const res = await fetch(
+//         `${baseURL}/37659e08-e223-4109-bbc8-597b2dd0804b`,
+//         {
+//           method: "PUT",
+//           body: JSON.stringify(mockUser),
+//           headers: {
+//             "content-type": "application/json",
+//           },
+//         }
+//       );
+//       const { data } = await res.json();
+//       await delay();
+//       console.log("data = ", data);
+//     }
+//   );
+// });
+// addUserBtn?.addEventListener("click", () => {});
+// async function universal(
+//   btn: HTMLButtonElement,
+//   loadingMsg: string,
+//   fetchFn: () => Promise<any>
+// ) {
+//   try {
+//     const defaultText = btn.innerText;
+//     btn.innerText = loadingMsg;
+//     btn.disabled = true;
+//     await fetchFn();
+//     btn.innerText = defaultText;
+//     btn.disabled = false;
+//   } catch (err: any) {
+//     console.error(err);
+//   }
+// }
 registerForm.addEventListener("submit", (e) => __awaiter(void 0, void 0, void 0, function* () {
     e.preventDefault();
     const shopname = registerForm.shopname.value.trim().toLowerCase();
