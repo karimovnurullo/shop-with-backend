@@ -15,17 +15,29 @@ const mainCloseAboutProduct = document.querySelector(".close-about-product");
 const mainAboutProduct = document.querySelector(".about-product");
 const registerContainer = document.querySelector(".register-container");
 const mainLoginBtn = document.querySelector(".main-login-btn");
+const loader1 = document.querySelector(".loader");
+const searchIcon = document.querySelector(".search-icon");
+const hiddenSearch = document.querySelector(".hidden-search");
+const closeHiddenSearch = document.querySelector(".close-hidden-search");
 mainLoginBtn.addEventListener("click", () => {
     window.location.href = "register/";
 });
 const getMainProduct = () => __awaiter(void 0, void 0, void 0, function* () {
     const reponse = yield fetch(`https://shopbackend-aaw0.onrender.com/api/products/`);
     const data = yield reponse.json();
+    loader1.classList.add('hide');
     return data.data;
+});
+searchIcon.addEventListener('click', () => {
+    hiddenSearch.classList.toggle("show");
+});
+closeHiddenSearch.addEventListener('click', () => {
+    hiddenSearch.classList.remove("show");
 });
 // =========================== Show Prodcuts Start =========================
 getMainProduct()
     .then((products) => {
+    loader1.classList.add('show');
     for (const product of products) {
         let productDiv = document.createElement("div");
         let imgBox = document.createElement("div");

@@ -5,6 +5,10 @@ const mainCloseAboutProduct = document.querySelector<HTMLDivElement>(".close-abo
 const mainAboutProduct = document.querySelector<HTMLDivElement>(".about-product")!;
 const registerContainer = document.querySelector<HTMLDivElement>(".register-container")!;
 const mainLoginBtn = document.querySelector<HTMLDivElement>(".main-login-btn")!;
+const loader1 = document.querySelector<HTMLDivElement>(".loader")!;
+const searchIcon = document.querySelector<HTMLDivElement>(".search-icon")!;
+const hiddenSearch = document.querySelector<HTMLDivElement>(".hidden-search")!;
+const closeHiddenSearch = document.querySelector<HTMLDivElement>(".close-hidden-search")!;
 
 mainLoginBtn.addEventListener("click", () => {
    window.location.href = "register/";
@@ -13,14 +17,23 @@ mainLoginBtn.addEventListener("click", () => {
 const getMainProduct = async () => {
    const reponse = await fetch(`https://shopbackend-aaw0.onrender.com/api/products/`);
    const data = await reponse.json();
+   loader1.classList.add('hide');
    return data.data;
 };
+
+searchIcon.addEventListener('click', () => {
+   hiddenSearch.classList.toggle("show");
+})
+closeHiddenSearch.addEventListener('click', () => {
+   hiddenSearch.classList.remove("show");
+})
 
 
 // =========================== Show Prodcuts Start =========================
 
 getMainProduct()
    .then((products) => {
+      loader1.classList.add('show');
       for (const product of products) {
          let productDiv = document.createElement("div");
          let imgBox = document.createElement("div");
@@ -64,6 +77,7 @@ getMainProduct()
             }
          });
       }
+
    })
    .catch((error: any) => {
       console.error(error.message);
