@@ -1,7 +1,6 @@
 const USERS_API = "https://shopbackend-aaw0.onrender.com/api/users/";
 const PRODUCTS_API = "https://shopbackend-aaw0.onrender.com/api/products/";
 const BASKETS_API = "https://shopbackend-aaw0.onrender.com/api/baskets/";
-
 const profile = document.querySelector<HTMLHeadElement>(".profile")!;
 const profileName = document.querySelector<HTMLDivElement>(".profile-name")!;
 const shopname = document.querySelector<HTMLDivElement>(".shopname")!;

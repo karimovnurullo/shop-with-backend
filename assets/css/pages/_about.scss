@@ -1,0 +1,82 @@
+.about-product-overlay {
+   width: 100%;
+   height: calc(100vh - 90px);
+   position: absolute;
+   top: 60px;
+   left: 0;
+   overflow: auto;
+   display: flex;
+   flex-direction: column;
+   border-radius: 0;
+   display: none;
+
+   .close-about-product {
+      font-size: 40px;
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      cursor: pointer;
+
+   }
+
+   .about-product {
+      width: 100%;
+      height: 500px;
+      background-color: white;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+      border-radius: 10px;
+      padding: 25px;
+      display: flex;
+      gap: 35px;
+
+      .about-product-img {
+         width: 45%;
+         height: 100%;
+
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+   }
+}
+
+
+.about-product-overlay.show {
+   display: flex;
+}
+
+
+
+.about-product-text {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   width: 55%;
+}
+
+.about-product-text button {
+   padding: 10px;
+   border-radius: 10px;
+   border: none;
+   font-size: 18px;
+   box-shadow: rgba(0, 0, 0, 0.555) 0px 5px 15px;
+   background-color: rgb(43, 124, 43);
+   color: #fff;
+   cursor: pointer;
+   letter-spacing: 1px;
+}
+
+.about-product-text button:active {
+   background-color: rgb(1, 55, 1);
+   transform: scale(0.95);
+}
+
+.about-product-text .productname {
+   font-size: 32px;
+}
+
+.about-product-text p span {
+   font-size: 22px;
+}

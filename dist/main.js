@@ -19,6 +19,7 @@ const loader1 = document.querySelector(".loader");
 const searchIcon = document.querySelector(".search-icon");
 const hiddenSearch = document.querySelector(".hidden-search");
 const closeHiddenSearch = document.querySelector(".close-hidden-search");
+const htmlTitle = document.querySelector('.main-title');
 mainLoginBtn.addEventListener("click", () => {
     window.location.href = "register/";
 });
@@ -26,6 +27,7 @@ const getMainProduct = () => __awaiter(void 0, void 0, void 0, function* () {
     const reponse = yield fetch(`https://shopbackend-aaw0.onrender.com/api/products/`);
     const data = yield reponse.json();
     loader1.classList.add('hide');
+    htmlTitle.textContent = "Online Shop";
     return data.data;
 });
 searchIcon.addEventListener('click', () => {
@@ -62,9 +64,8 @@ getMainProduct()
         productDiv.addEventListener("click", () => {
             let id = productDiv.getAttribute("data-id");
             if (id !== null) {
-                console.log("ID", id);
-                console.log("Name", product.name);
-                console.log("Name", product.price);
+                localStorage.setItem("productID", id);
+                htmlTitle.textContent = product.name;
                 mainAboutProductOverlay.classList.add("show");
                 mainAboutProduct.innerHTML = `
          <div class="about-product-img">
@@ -84,5 +85,40 @@ getMainProduct()
     .catch((error) => {
     console.error(error.message);
 });
-mainCloseAboutProduct.addEventListener("click", () => mainAboutProductOverlay.classList.remove("show"));
+mainCloseAboutProduct.addEventListener("click", () => {
+    mainAboutProductOverlay.classList.remove("show");
+    localStorage.setItem("productID", "");
+    htmlTitle.textContent = "Online Shop";
+});
+window.addEventListener('load', () => __awaiter(void 0, void 0, void 0, function* () {
+    let productID = localStorage.getItem('productID');
+    if (productID) {
+        loader1.classList.remove('hide');
+        try {
+            let response = yield fetch(`https://shopbackend-aaw0.onrender.com/api/products/${productID}`);
+            let { data } = yield response.json();
+            let { name, shopname, price, description, img } = data;
+            htmlTitle.textContent = name;
+            mainAboutProduct.innerHTML = `
+               <div class="about-product-img">
+                  <img src="${img}" alt="">
+               </div>
+               <div class="about-product-text">
+                  <p class="productname">${name}</p>
+                  <p class="shopname">brand: <span>${shopname}</span></p>
+                  <p class="productprice">price: <span>${price} so'm</span></p>
+                  <p class="description">${description}</p>
+                  <button>Add to basket <i class="fa-solid fa-cart-arrow-down"></i></button>
+               </div>`;
+            mainAboutProductOverlay.classList.add("show");
+        }
+        catch (error) {
+            console.error(error);
+            console.log("Failed to load product. Please try again later.");
+        }
+    }
+    else {
+        mainAboutProductOverlay.classList.remove("show");
+    }
+}));
 // =========================== Show Prodcuts End =========================

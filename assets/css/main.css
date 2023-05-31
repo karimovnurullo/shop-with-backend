@@ -35,16 +35,26 @@ body {
 .home-container header .logo i {
   font-size: 40px;
 }
-.home-container header .search {
+.home-container header .search-form {
+  position: relative;
+}
+.home-container header .search-form .search {
   width: 400px;
   height: 40px;
-  padding: 0 10px;
-  border-radius: 10px;
+  padding: 0 15px;
+  border-radius: 20px;
   border: 0;
   outline: none;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   font-size: 18px;
   border: 1px solid rgba(17, 17, 17, 0.3058823529);
+  padding-left: 40px;
+}
+.home-container header .search-form i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
 }
 .home-container header .nav {
   display: flex;
@@ -76,10 +86,11 @@ body {
 .home-container header .nav .main-login-btn:active {
   transform: scale(0.95);
 }
-.home-container header .hidden-search {
+.home-container .hidden-search {
   width: 100%;
-  height: 100%;
+  height: 45px;
   position: absolute;
+  z-index: 9999999;
   top: 0;
   left: 0;
   background-color: #fff;
@@ -90,41 +101,37 @@ body {
   padding: 2px 10px;
   transition: all 0.1s;
   gap: 20px;
-  display: none;
 }
-.home-container header .hidden-search .search-form {
+.home-container .hidden-search .search-form {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
   gap: 5px;
   height: 100%;
 }
-.home-container header .hidden-search .search-form input {
+.home-container .hidden-search .search-form i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+.home-container .hidden-search .search-form input {
   height: 90%;
   width: 100%;
   border: 0;
   outline: none;
-  border-radius: 5px 0 0 5px;
+  border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   color: #000;
-  padding: 0 8px;
+  padding-left: 45px;
+  padding-right: 10px;
   font-size: 16px;
 }
-.home-container header .hidden-search .search-form .search-btn {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  border-radius: 0 5px 5px 0;
-  border: 0;
-  width: 40px;
-  height: 90%;
-  font-size: 20px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.home-container header .hidden-search .close-hidden-search {
+.home-container .hidden-search .close-hidden-search {
   font-size: 25px;
   cursor: pointer;
+  margin-right: 10px;
 }
 .home-container .products-box {
   position: relative;
@@ -216,26 +223,6 @@ body {
 }
 .home-container .products-box.hide {
   display: none;
-}
-.home-container .about-product-overlay {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  display: none;
-}
-.home-container .about-product-overlay.show {
-  display: flex;
 }
 .home-container .loader {
   position: fixed;
@@ -345,7 +332,7 @@ body {
     gap: 20px;
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 600px) {
   .home-container header {
     padding: 0 16px;
     height: 50px;
@@ -365,11 +352,12 @@ body {
   .home-container header .nav .search-icon {
     display: flex;
   }
-  .home-container header .search {
+  .home-container header .search-form .search,
+  .home-container header .search-form i {
     display: none;
   }
   .home-container .hidden-search.show {
-    top: 0;
+    top: 50px;
     display: flex;
   }
   .home-container .products-box {
@@ -422,4 +410,79 @@ body {
     transform: scale(1.03);
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   }
+}
+.about-product-overlay {
+  width: 100%;
+  height: calc(100vh - 90px);
+  position: absolute;
+  top: 60px;
+  left: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  display: none;
+}
+.about-product-overlay .close-about-product {
+  font-size: 40px;
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  cursor: pointer;
+}
+.about-product-overlay .about-product {
+  width: 100%;
+  height: 500px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 10px;
+  padding: 25px;
+  display: flex;
+  gap: 35px;
+}
+.about-product-overlay .about-product .about-product-img {
+  width: 45%;
+  height: 100%;
+}
+.about-product-overlay .about-product .about-product-img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.about-product-overlay.show {
+  display: flex;
+}
+
+.about-product-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 55%;
+}
+
+.about-product-text button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  box-shadow: rgba(0, 0, 0, 0.555) 0px 5px 15px;
+  background-color: rgb(43, 124, 43);
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.about-product-text button:active {
+  background-color: rgb(1, 55, 1);
+  transform: scale(0.95);
+}
+
+.about-product-text .productname {
+  font-size: 32px;
+}
+
+.about-product-text p span {
+  font-size: 22px;
 }/*# sourceMappingURL=main.css.map */
